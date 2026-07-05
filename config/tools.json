@@ -1,0 +1,33 @@
+{
+  "delink": {
+    "path_names": ["delink"],
+    "windows": { "url": "https://github.com/HaydnTrigg/delink/releases/download/v0.7.0/delink-windows-x86_64.exe", "sha1": "6A83F205E2718B0D98275DF73A6AB72929D5B2A0", "dest": "build/tools/delink-windows-x86_64.exe" },
+    "linux":   { "url": "https://github.com/HaydnTrigg/delink/releases/download/v0.7.0/delink-linux-x86_64", "sha1": "721c5e7c7a3540a7473cc5b375326e5ac28ea4a8", "dest": "build/tools/delink-linux-x86_64" }
+  },
+  "objdiff_cli": {
+    "path_names": ["objdiff-cli"],
+    "windows": { "url": "https://github.com/HaydnTrigg/objdiff/releases/download/v3.7.2-Monkey/objdiff-cli-windows-x86_64.exe", "sha1": "89F5666E23B05C93E4B166A60567A08661028F7A", "dest": "build/tools/objdiff-cli-windows-x86_64.exe" },
+    "linux":   { "url": "https://github.com/HaydnTrigg/objdiff/releases/download/v3.7.2-Monkey/objdiff-cli-linux-x86_64", "sha1": "c600dd211c2214ba9c48f1ac31cdc4faac5b29a4", "dest": "build/tools/objdiff-cli-linux-x86_64" }
+  },
+  "objdiff": {
+    "path_names": ["objdiff"],
+    "windows": { "url": "https://github.com/HaydnTrigg/objdiff/releases/download/v3.7.2-Monkey/objdiff-windows-x86_64.exe", "sha1": "18665D87721982B33D3CA78AA461B157AEB48A5C", "dest": "build/tools/objdiff-windows-x86_64.exe" },
+    "linux":   { "url": "https://github.com/HaydnTrigg/objdiff/releases/download/v3.7.2-Monkey/objdiff-linux-x86_64", "sha1": "2e759f63eecaf6bd516777124b9c3217caabc496", "dest": "build/tools/objdiff-linux-x86_64" }
+  },
+  "ninja": {
+    "path_names": ["ninja"],
+    "windows": { "url": "https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-win.zip", "sha1": "C41FF4ACA70E5530AB5222917C53800C7AE5B3FF", "archive": "build/tools/ninja-win.zip", "entry": "ninja.exe", "dest": "build/tools/ninja.exe" },
+    "linux":   { "url": "https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip", "sha1": "3108bdd977ba446e9745aba543a8bc952518cd6c", "archive": "build/tools/ninja-linux.zip", "entry": "ninja", "dest": "build/tools/ninja" }
+  },
+  "msvc6": {
+    "url": "https://github.com/OmniBlade/decomp.me/releases/download/msvcwin9x/msvc6.0.tar.gz",
+    "sha1": "dc3aa22916f418b1d3810055652ef8c75a421b72",
+    "dest_dir": "build/msvc6.0",
+    "sentinel": "Bin/CL.EXE"
+  },
+  "seven_zip": {
+    "path_names": ["7zz", "7z"],
+    "windows": { "msi_url": "https://github.com/ip7z/7zip/releases/download/26.01/7z2601.msi", "msi_dest": "build/tools/7z2601.msi", "extract_dir": "build/tools/7z", "exe_subpath": "Files/7-Zip/7z.exe" },
+    "linux":   { "url": "https://github.com/ip7z/7zip/releases/download/26.01/7z2601-linux-x64.tar.xz", "sha1": "59a5944737757b36a219e6aa3cbaaee79610ede1", "archive": "build/tools/7z2601-linux-x64.tar.xz", "extract_dir": "build/tools/7z", "dest": "build/tools/7z/7zzs" }
+  }
+}
