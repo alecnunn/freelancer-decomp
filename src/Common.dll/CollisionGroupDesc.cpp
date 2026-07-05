@@ -16,7 +16,10 @@ struct CollisionGroupDesc {
     bool operator>(const CollisionGroupDesc& o) const;
 };
 
+// Favor-size idiom in the original (see EquipDesc operators); scope to /Os.
+#pragma optimize("s", on)
 bool CollisionGroupDesc::operator==(const CollisionGroupDesc& o) const { return m_id == o.m_id; }
 bool CollisionGroupDesc::operator!=(const CollisionGroupDesc& o) const { return m_id != o.m_id; }
 bool CollisionGroupDesc::operator<(const CollisionGroupDesc& o) const { return m_id < o.m_id; }
 bool CollisionGroupDesc::operator>(const CollisionGroupDesc& o) const { return m_id > o.m_id; }
+#pragma optimize("", on)

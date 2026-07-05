@@ -67,10 +67,16 @@ void EquipDesc::set_hardpoint(const CacheString& hp) { m_hardpoint = hp; }
 bool EquipDesc::is_internal() const { return m_hardpoint.id == CARGO_BAY_HP_NAME.id; }
 void EquipDesc::make_internal() { m_hardpoint = CARGO_BAY_HP_NAME; }
 
+// These comparison operators emit the favor-size idiom (sub/neg/sbb/inc,
+// cmp/sbb/neg) in the original, unlike the rest of this /O2 unit. A scoped
+// optimize("s") reproduces that for operator== (the != / < / > forms remain
+// register-scheduling-capped, an orthogonal cap).
+#pragma optimize("s", on)
 bool EquipDesc::operator==(const EquipDesc& o) const { return m_id == o.m_id; }
 bool EquipDesc::operator!=(const EquipDesc& o) const { return m_id != o.m_id; }
 bool EquipDesc::operator<(const EquipDesc& o) const { return m_id < o.m_id; }
 bool EquipDesc::operator>(const EquipDesc& o) const { return m_id > o.m_id; }
+#pragma optimize("", on)
 
 // NOTE: the original also has standalone copy-ctor (??0EquipDesc@@QAE@ABU0@@Z)
 // and copy-assign (??4EquipDesc@@QAEAAU0@ABU0@@Z) symbols. Those are the
