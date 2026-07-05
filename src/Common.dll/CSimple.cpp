@@ -7,9 +7,16 @@
 namespace Archetype { struct Root; }
 struct IObjDB;
 
-struct CSimple {
+// Minimal model of the CObject base (full recovery is its own effort). It owns
+// bytes 0x00..0x88 (vftable ptr + unmodeled fields); declaring the base methods
+// CSimple calls lets those qualified calls resolve to the right symbols.
+struct CObject {
     // implicit vftable pointer at +0x00
-    unsigned char    _pad_0x04[0x84];  // +0x04  base subobjects / unmodeled fields
+    unsigned char _pad_0x04[0x84];     // +0x04 .. +0x88
+    virtual void open(Archetype::Root* arch);
+};
+
+struct CSimple : CObject {
     Archetype::Root* m_arch;           // +0x88  archetype root (max hit pts at +0x1c)
     unsigned char    _pad_0x8c[0x14];  // +0x8c
     unsigned char    m_flags;          // +0xa0  bit0 = targetable (byte-accessed)
@@ -35,6 +42,7 @@ struct CSimple {
     float get_relative_health() const;
     virtual void connect(IObjDB* db);
     virtual void disconnect(IObjDB* db);
+    virtual void open(Archetype::Root* arch);
 };
 
 const unsigned int& CSimple::get_id() const { return m_id; }
@@ -51,3 +59,8 @@ float CSimple::get_relative_health() const {
 }
 void CSimple::connect(IObjDB* db) { m_object_db = db; }
 void CSimple::disconnect(IObjDB* db) { if (m_object_db == db) m_object_db = 0; }
+void CSimple::open(Archetype::Root* arch) {
+    CObject::open(arch);
+    if (m_type == 0)
+        m_type = *(const unsigned int*)((const char*)m_arch + 0x10);
+}
