@@ -14,6 +14,25 @@ struct CacheString {
 // Global constant: the "no sub-object" id sentinel (?SUBOBJ_ID_NONE@@3GB).
 extern const unsigned short SUBOBJ_ID_NONE;
 
+// Core math types (mangle as class 'V'). Layouts are load-bearing.
+class Vector {      // size 0x0c
+public:
+    float x;
+    float y;
+    float z;
+};
+
+class Matrix {      // size 0x24  (row-major 3x3)
+public:
+    float d[3][3];
+};
+
+class Transform {   // size 0x30  (orientation then position)
+public:
+    Matrix orientation;
+    Vector position;
+};
+
 namespace Archetype {
 // Runtime class-type tag returned by each archetype's virtual get_class_type().
 // Values are the constants each subclass returns (mov eax,IMM; ret); the enum
