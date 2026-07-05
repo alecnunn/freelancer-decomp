@@ -33,6 +33,8 @@ struct CSimple {
     virtual void set_hit_pts(float hp);
     float get_max_hit_pts() const;
     float get_relative_health() const;
+    virtual void connect(IObjDB* db);
+    virtual void disconnect(IObjDB* db);
 };
 
 const unsigned int& CSimple::get_id() const { return m_id; }
@@ -47,3 +49,5 @@ float CSimple::get_max_hit_pts() const { return *(const float*)((const char*)m_a
 float CSimple::get_relative_health() const {
     return m_hit_pts / *(const float*)((const char*)m_arch + 0x1c);
 }
+void CSimple::connect(IObjDB* db) { m_object_db = db; }
+void CSimple::disconnect(IObjDB* db) { if (m_object_db == db) m_object_db = 0; }
