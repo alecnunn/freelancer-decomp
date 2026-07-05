@@ -50,7 +50,7 @@
       "size": 541,
       "scope": "static"
     },
-    "sub_6201610": {
+    "_probe_6201610@4": {
       "address": 102766096,
       "size": 5,
       "scope": "static"
@@ -315,12 +315,12 @@
       "size": 16,
       "scope": "static"
     },
-    "sub_6202690": {
+    "@probe_6202690@4": {
       "address": 102770320,
       "size": 10,
       "scope": "static"
     },
-    "sub_62026A0": {
+    "_probe_62026A0@4": {
       "address": 102770336,
       "size": 13,
       "scope": "static"
@@ -340,12 +340,12 @@
       "size": 18,
       "scope": "static"
     },
-    "sub_62026F0": {
+    "_probe_62026F0@8": {
       "address": 102770416,
       "size": 16,
       "scope": "static"
     },
-    "sub_6202700": {
+    "_probe_6202700@4": {
       "address": 102770432,
       "size": 10,
       "scope": "static"
@@ -365,7 +365,7 @@
       "size": 10,
       "scope": "static"
     },
-    "sub_6202740": {
+    "_probe_6202740@4": {
       "address": 102770496,
       "size": 8,
       "scope": "static"
@@ -695,7 +695,7 @@
       "size": 5,
       "scope": "static"
     },
-    "sub_6203220": {
+    "_probe_6203220@8": {
       "address": 102773280,
       "size": 6,
       "scope": "static"
@@ -795,7 +795,7 @@
       "size": 176,
       "scope": "static"
     },
-    "sub_6203400": {
+    "_probe_6203400@4": {
       "address": 102773760,
       "size": 16,
       "scope": "static"
