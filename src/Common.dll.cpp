@@ -11,6 +11,7 @@
 #include "Common.dll/CAsteroid.cpp"
 #include "Common.dll/CBase.cpp"
 #include "Common.dll/CEqObj.cpp"
+#include "Common.dll/CEquip.cpp"
 #include "Common.dll/CHARACTER_ID.cpp"
 #include "Common.dll/CLoot.cpp"
 #include "Common.dll/CObject.cpp"
