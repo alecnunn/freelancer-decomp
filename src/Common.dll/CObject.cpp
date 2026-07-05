@@ -41,6 +41,8 @@ struct CObject : EngineObject {
     virtual Vector get_center_of_mass() const;
     Vector get_moment_of_inertia() const;
     virtual bool get_surface_extents(Vector& mn, Vector& mx) const;
+    void add_impulse(const Vector& impulse);
+    void add_impulse(const Vector& impulse, const Vector& point);
 
     // Declared so derived classes' base-qualified calls resolve (defined elsewhere).
     virtual void open(Archetype::Root* arch);
@@ -52,6 +54,8 @@ namespace PhySys {
     float  GetMass(const CObject* obj);
     Vector GetCenterOfMass(const CObject* obj);
     Vector GetMomentOfInertia(const CObject* obj);
+    void   LinearImpulse(CObject* obj, const Vector& impulse, float scale);
+    void   AddImpulseAtPoint(CObject* obj, const Vector& impulse, const Vector& point);
 }
 
 unsigned int CObject::AddRef() { return ++m_ref_count; }
@@ -117,4 +121,14 @@ bool CObject::get_surface_extents(Vector& mn, Vector& mx) const {
         return true;
     }
     return false;
+}
+
+void CObject::add_impulse(const Vector& impulse) {
+    if (m_phys != 0)
+        PhySys::LinearImpulse(this, impulse, 1.0f);
+}
+
+void CObject::add_impulse(const Vector& impulse, const Vector& point) {
+    if (m_phys != 0)
+        PhySys::AddImpulseAtPoint(this, impulse, point);
 }
