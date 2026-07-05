@@ -13,6 +13,7 @@
 #include "Common.dll/CEqObj.cpp"
 #include "Common.dll/CHARACTER_ID.cpp"
 #include "Common.dll/CObject.cpp"
+#include "Common.dll/CShip.cpp"
 #include "Common.dll/CSimple.cpp"
 #include "Common.dll/CollisionGroupDesc.cpp"
 #include "Common.dll/CostumeDescriptions.cpp"
