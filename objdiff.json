@@ -1,0 +1,525 @@
+{
+  "min_version": "2.0.0-beta.5",
+  "custom_make": "ninja",
+  "build_target": false,
+  "watch_patterns": [
+    "*.c",
+    "*.cp",
+    "*.cpp",
+    "*.h",
+    "*.hpp",
+    "*.inc",
+    "*.py",
+    "*.yml",
+    "*.txt",
+    "*.json"
+  ],
+  "units": [
+    {
+      "name": "src/alchemy.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/Alchemy.dll/Alchemy.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/alchemy.dll/src/alchemy.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/alchemy.dll.cpp",
+        "progress_categories": [
+          "Alchemy.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/Common.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/Common.dll/Common.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/Common.dll/src/Common.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/Common.dll.cpp",
+        "progress_categories": [
+          "Common.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/Content.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/Content.dll/Content.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/Content.dll/src/Content.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/Content.dll.cpp",
+        "progress_categories": [
+          "Content.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/DALib.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/DALib.dll/DALib.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/DALib.dll/src/DALib.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/DALib.dll.cpp",
+        "progress_categories": [
+          "DALib.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/Freelancer.exe",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/Freelancer.exe/Freelancer.exe.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/Freelancer.exe/src/Freelancer.exe.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/Freelancer.exe.cpp",
+        "progress_categories": [
+          "Freelancer.exe"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/RemoteClient.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/RemoteClient.dll/RemoteClient.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/RemoteClient.dll/src/RemoteClient.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/RemoteClient.dll.cpp",
+        "progress_categories": [
+          "RemoteClient.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/Server.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/Server.dll/Server.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/Server.dll/src/Server.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/Server.dll.cpp",
+        "progress_categories": [
+          "Server.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/dacom.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/dacom.dll/dacom.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/dacom.dll/src/dacom.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/dacom.dll.cpp",
+        "progress_categories": [
+          "dacom.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/debuglib.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/debuglib.dll/debuglib.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/debuglib.dll/src/debuglib.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/debuglib.dll.cpp",
+        "progress_categories": [
+          "debuglib.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/deformable2.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/deformable2.dll/deformable2.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/deformable2.dll/src/deformable2.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/deformable2.dll.cpp",
+        "progress_categories": [
+          "deformable2.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/engbase.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/engbase.dll/engbase.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/engbase.dll/src/engbase.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/engbase.dll.cpp",
+        "progress_categories": [
+          "engbase.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/flmaterials.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/flmaterials.dll/flmaterials.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/flmaterials.dll/src/flmaterials.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/flmaterials.dll.cpp",
+        "progress_categories": [
+          "flmaterials.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/flserver.exe",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/flserver.exe/flserver.exe.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/flserver.exe/src/flserver.exe.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/flserver.exe.cpp",
+        "progress_categories": [
+          "flserver.exe"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/imeui.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/imeui.dll/imeui.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/imeui.dll/src/imeui.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/imeui.dll.cpp",
+        "progress_categories": [
+          "imeui.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/luaprofile.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/luaprofile.dll/luaprofile.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/luaprofile.dll/src/luaprofile.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/luaprofile.dll.cpp",
+        "progress_categories": [
+          "luaprofile.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/movie.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/movie.dll/movie.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/movie.dll/src/movie.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/movie.dll.cpp",
+        "progress_categories": [
+          "movie.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/readfile.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/readfile.dll/readfile.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/readfile.dll/src/readfile.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/readfile.dll.cpp",
+        "progress_categories": [
+          "readfile.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/remoteserver.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/remoteserver.dll/remoteserver.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/remoteserver.dll/src/remoteserver.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/remoteserver.dll.cpp",
+        "progress_categories": [
+          "remoteserver.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/rendcomp.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/rendcomp.dll/rendcomp.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/rendcomp.dll/src/rendcomp.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/rendcomp.dll.cpp",
+        "progress_categories": [
+          "rendcomp.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/rp8.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/rp8.dll/rp8.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/rp8.dll/src/rp8.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/rp8.dll.cpp",
+        "progress_categories": [
+          "rp8.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/rpclocal.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/rpclocal.dll/rpclocal.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/rpclocal.dll/src/rpclocal.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/rpclocal.dll.cpp",
+        "progress_categories": [
+          "rpclocal.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/shading.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/shading.dll/shading.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/shading.dll/src/shading.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/shading.dll.cpp",
+        "progress_categories": [
+          "shading.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/soundmanager.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/soundmanager.dll/soundmanager.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/soundmanager.dll/src/soundmanager.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/soundmanager.dll.cpp",
+        "progress_categories": [
+          "soundmanager.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/soundstreamer.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/soundstreamer.dll/soundstreamer.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/soundstreamer.dll/src/soundstreamer.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/soundstreamer.dll.cpp",
+        "progress_categories": [
+          "soundstreamer.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/system.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/system.dll/system.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/system.dll/src/system.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/system.dll.cpp",
+        "progress_categories": [
+          "system.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/thorn.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/thorn.dll/thorn.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/thorn.dll/src/thorn.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/thorn.dll.cpp",
+        "progress_categories": [
+          "thorn.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/x86math.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/x86math.dll/x86math.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/x86math.dll/src/x86math.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/x86math.dll.cpp",
+        "progress_categories": [
+          "x86math.dll"
+        ],
+        "auto_generated": false
+      }
+    },
+    {
+      "name": "src/ximage.dll",
+      "target_path": "build/052103_release_1149_Ipatch_ver1254/delink/ximage.dll/ximage.dll.obj",
+      "base_path": "build/052103_release_1149_Ipatch_ver1254/obj/ximage.dll/src/ximage.dll.obj",
+      "metadata": {
+        "complete": false,
+        "reverse_fn_order": false,
+        "source_path": "./src/ximage.dll.cpp",
+        "progress_categories": [
+          "ximage.dll"
+        ],
+        "auto_generated": false
+      }
+    }
+  ],
+  "progress_categories": [
+    {
+      "id": "Alchemy.dll",
+      "name": "Alchemy.dll"
+    },
+    {
+      "id": "Common.dll",
+      "name": "Common.dll"
+    },
+    {
+      "id": "Content.dll",
+      "name": "Content.dll"
+    },
+    {
+      "id": "DALib.dll",
+      "name": "DALib.dll"
+    },
+    {
+      "id": "Freelancer.exe",
+      "name": "Freelancer.exe"
+    },
+    {
+      "id": "RemoteClient.dll",
+      "name": "RemoteClient.dll"
+    },
+    {
+      "id": "Server.dll",
+      "name": "Server.dll"
+    },
+    {
+      "id": "dacom.dll",
+      "name": "dacom.dll"
+    },
+    {
+      "id": "debuglib.dll",
+      "name": "debuglib.dll"
+    },
+    {
+      "id": "deformable2.dll",
+      "name": "deformable2.dll"
+    },
+    {
+      "id": "engbase.dll",
+      "name": "engbase.dll"
+    },
+    {
+      "id": "flmaterials.dll",
+      "name": "flmaterials.dll"
+    },
+    {
+      "id": "flserver.exe",
+      "name": "flserver.exe"
+    },
+    {
+      "id": "imeui.dll",
+      "name": "imeui.dll"
+    },
+    {
+      "id": "luaprofile.dll",
+      "name": "luaprofile.dll"
+    },
+    {
+      "id": "movie.dll",
+      "name": "movie.dll"
+    },
+    {
+      "id": "readfile.dll",
+      "name": "readfile.dll"
+    },
+    {
+      "id": "remoteserver.dll",
+      "name": "remoteserver.dll"
+    },
+    {
+      "id": "rendcomp.dll",
+      "name": "rendcomp.dll"
+    },
+    {
+      "id": "rp8.dll",
+      "name": "rp8.dll"
+    },
+    {
+      "id": "rpclocal.dll",
+      "name": "rpclocal.dll"
+    },
+    {
+      "id": "shading.dll",
+      "name": "shading.dll"
+    },
+    {
+      "id": "soundmanager.dll",
+      "name": "soundmanager.dll"
+    },
+    {
+      "id": "soundstreamer.dll",
+      "name": "soundstreamer.dll"
+    },
+    {
+      "id": "system.dll",
+      "name": "system.dll"
+    },
+    {
+      "id": "thorn.dll",
+      "name": "thorn.dll"
+    },
+    {
+      "id": "x86math.dll",
+      "name": "x86math.dll"
+    },
+    {
+      "id": "ximage.dll",
+      "name": "ximage.dll"
+    }
+  ]
+}
