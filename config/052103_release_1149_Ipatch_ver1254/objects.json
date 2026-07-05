@@ -6,7 +6,7 @@
         "idapro": "config/052103_release_1149_Ipatch_ver1254/splits/Alchemy.dll.json",
         "delink": "Alchemy.dll",
         "objects": {
-            "src/Alchemy.dll.cpp": "Alchemy.dll.obj"
+            "src/alchemy.dll.cpp": "Alchemy.dll.obj"
         }
     },
     "Common.dll": {
