@@ -1,5 +1,5 @@
 {
-    "Alchemy.dll": {
+    "alchemy.dll": {
         "progress_category": "Alchemy.dll",
         "cflags": "Alchemy.dll",
         "idb": "idb/Alchemy.dll.i64",
