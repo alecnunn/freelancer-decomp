@@ -12,6 +12,7 @@
 #include "Common.dll/CBase.cpp"
 #include "Common.dll/CEqObj.cpp"
 #include "Common.dll/CHARACTER_ID.cpp"
+#include "Common.dll/CLoot.cpp"
 #include "Common.dll/CObject.cpp"
 #include "Common.dll/CShip.cpp"
 #include "Common.dll/CSimple.cpp"
