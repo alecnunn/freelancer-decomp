@@ -21,7 +21,7 @@ struct CObject : EngineObject {
     // m_position@0x2c, radius, ...). CObject's own fields begin at +0x4c.
     unsigned char _pad_0x4c[8];      // +0x4c .. +0x54
     void*         m_phys;            // +0x54  physics controller (0 = static)
-    unsigned char _pad_0x58[4];      // +0x58
+    void*         m_surface;         // +0x58  surface-extents record (min@+8, max@+0x14)
     unsigned int  m_part_count;      // +0x5c  0 = no sub-parts
     unsigned char _pad_0x60[8];      // +0x60
     CObjPart*     m_part_begin;      // +0x68  part-map vector begin
@@ -40,6 +40,7 @@ struct CObject : EngineObject {
     virtual float get_mass() const;
     virtual Vector get_center_of_mass() const;
     Vector get_moment_of_inertia() const;
+    virtual bool get_surface_extents(Vector& mn, Vector& mx) const;
 
     // Declared so derived classes' base-qualified calls resolve (defined elsewhere).
     virtual void open(Archetype::Root* arch);
@@ -107,4 +108,13 @@ Vector CObject::get_moment_of_inertia() const {
     v.y = 0;
     v.z = 0;
     return v;
+}
+
+bool CObject::get_surface_extents(Vector& mn, Vector& mx) const {
+    if (m_surface != 0) {
+        mn = *(const Vector*)((const char*)m_surface + 8);
+        mx = *(const Vector*)((const char*)m_surface + 0x14);
+        return true;
+    }
+    return false;
 }
