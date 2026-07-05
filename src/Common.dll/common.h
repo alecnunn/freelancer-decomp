@@ -14,4 +14,16 @@ struct CacheString {
 // Global constant: the "no sub-object" id sentinel (?SUBOBJ_ID_NONE@@3GB).
 extern const unsigned short SUBOBJ_ID_NONE;
 
+namespace Archetype {
+// Runtime class-type tag returned by each archetype's virtual get_class_type().
+// Values are the constants each subclass returns (mov eax,IMM; ret); the enum
+// only needs to exist for the ?AW4AClassType@Archetype@@ return-type mangling.
+enum AClassType {
+    ACLASS_COMMODITY       = 0x0a,
+    ACLASS_SHIELD          = 0x0d,
+    ACLASS_MINE_DROPPER    = 0x12,
+    ACLASS_TRADELANE_EQUIP = 0x1d,
+};
+}
+
 #endif // COMMON_DLL_COMMON_H
