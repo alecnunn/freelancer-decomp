@@ -36,6 +36,7 @@ struct CObject : EngineObject {
     long part_to_inst(unsigned int part) const;
     unsigned int inst_to_part(long inst) const;
     bool is_shield_part(unsigned int part) const;
+    bool flag_part_as_shield(unsigned int part);
     virtual float get_mass() const;
     virtual Vector get_center_of_mass() const;
     Vector get_moment_of_inertia() const;
@@ -74,6 +75,15 @@ bool CObject::is_shield_part(unsigned int part) const {
     for (const CObjPart* i = m_part_begin; i != m_part_end; ++i)
         if (i->part_id == part)
             return i->shield;
+    return false;
+}
+
+bool CObject::flag_part_as_shield(unsigned int part) {
+    for (CObjPart* i = m_part_begin; i != m_part_end; ++i)
+        if (i->part_id == part) {
+            i->shield = true;
+            return true;
+        }
     return false;
 }
 
