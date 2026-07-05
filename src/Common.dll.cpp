@@ -10,3 +10,4 @@
 #include "Common.dll/Archetype_MineDropper.cpp"
 #include "Common.dll/Archetype_TradeLaneEquip.cpp"
 #include "Common.dll/Archetype_CollisionGroup.cpp"
+#include "Common.dll/Archetype_class_types.cpp"
