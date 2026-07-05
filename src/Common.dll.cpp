@@ -10,6 +10,7 @@
 #include "Common.dll/BaseWatcher.cpp"
 #include "Common.dll/CAsteroid.cpp"
 #include "Common.dll/CBase.cpp"
+#include "Common.dll/CEEngine.cpp"
 #include "Common.dll/CEShield.cpp"
 #include "Common.dll/CEqObj.cpp"
 #include "Common.dll/CEquip.cpp"
