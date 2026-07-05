@@ -4,21 +4,9 @@
 // the base subobjects. Only the offsets touched by matched methods are named.
 #include "common.h"
 
-namespace Archetype { struct Root; }
-struct IObjDB;
-
-// Minimal model of the CObject base (full recovery is its own effort). It owns
-// bytes 0x00..0x88 (vftable ptr + unmodeled fields); declaring the base methods
-// CSimple calls lets those qualified calls resolve to the right symbols.
-struct CObject {
-    // implicit vftable pointer at +0x00
-    unsigned char _pad_0x04[0x84];     // +0x04 .. +0x88
-    virtual void open(Archetype::Root* arch);
-};
-
+// CObject (the base, incl. m_arch@0x88) is defined in CObject.cpp, included
+// earlier in the unity build. CSimple adds its own fields from +0xa0.
 struct CSimple : CObject {
-    Archetype::Root* m_arch;           // +0x88  archetype root (max hit pts at +0x1c)
-    unsigned char    _pad_0x8c[0x14];  // +0x8c
     unsigned char    m_flags;          // +0xa0  bit0 = targetable (byte-accessed)
     unsigned char    _pad_0xa1[3];     // +0xa1
     void*            m_scanner_src;    // +0xa4  object queried for scanner interference
