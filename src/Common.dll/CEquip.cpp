@@ -1,9 +1,11 @@
 // CEquip -- base class of the mounted-equipment family (CEShield/CEEngine/
-// CEGun/CELauncher/...). Shallow polymorphic class (own vtable ~18 slots);
-// fields from +0x08. Modeled flat with a leading vptr word.
+// CEGun/CELauncher/...). Shallow polymorphic class; fields from +0x08. The
+// virtuals are declared in true vtable order (slot 0 = deleting dtor) so the
+// self-dispatch methods (e.g. IsFunctioning) emit the right vtable offsets.
 #include "common.h"
 
 namespace Archetype { struct Equipment; }
+unsigned int Arch2Good(unsigned int arch);   // ?Arch2Good@@YAII@Z
 
 struct CEquip {
     // vftable ptr at +0x00
@@ -19,15 +21,32 @@ struct CEquip {
 
     unsigned short GetID() const;
     unsigned int GetType() const;
-    virtual bool IsActive() const;
-    virtual bool IsDestroyed() const;
-    virtual bool IsTemporary() const;
+
+    // --- virtuals, in vtable slot order ---
+    virtual ~CEquip();                   // slot 0 (deleting dtor)
+    virtual bool IsActive() const;       // slot 1  (byte 0x04)
+    virtual bool IsDestroyed() const;    // slot 2  (byte 0x08)
+    virtual bool IsFunctioning() const;  // slot 3  (byte 0x0c)
+    virtual bool _is_disabled() const;   // slot 4  (byte 0x10)  folds DisableController
+    virtual bool IsTemporary() const;    // slot 5
+    virtual bool IsLootable() const;     // (body offset-based; slot not load-bearing here)
     virtual float GetMaxHitPoints() const;
 };
 
 unsigned short CEquip::GetID() const { return m_id; }
 unsigned int CEquip::GetType() const { return m_type; }
+
+CEquip::~CEquip() {}
 bool CEquip::IsActive() const { return m_active; }
 bool CEquip::IsDestroyed() const { return m_destroyed; }
+bool CEquip::IsFunctioning() const {
+    return IsActive() && !_is_disabled() && !IsDestroyed();
+}
+bool CEquip::_is_disabled() const { return false; }
 bool CEquip::IsTemporary() const { return m_temporary; }
+bool CEquip::IsLootable() const {
+    if (*(const int*)((const char*)m_arch + 0x6c) != 0)
+        return Arch2Good(*(const unsigned int*)((const char*)m_arch + 8)) != 0;
+    return false;
+}
 float CEquip::GetMaxHitPoints() const { return *(const float*)((const char*)m_arch + 0x1c); }
