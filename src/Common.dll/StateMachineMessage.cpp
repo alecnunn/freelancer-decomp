@@ -15,11 +15,7 @@
 #include "common.h"
 #include <stdlib.h>     // malloc
 
-// MSVC6 has no built-in placement new; declare the trivial form used by clone().
-#ifndef COMMON_DLL_PLACEMENT_NEW
-#define COMMON_DLL_PLACEMENT_NEW
-inline void* operator new(unsigned int, void* p) { return p; }
-#endif
+// Placement new comes from <new> (included via common.h).
 
 class StateMachineMessage {
 public:

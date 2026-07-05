@@ -5,6 +5,13 @@
 #ifndef COMMON_DLL_COMMON_H
 #define COMMON_DLL_COMMON_H
 
+// Standard headers used across the unity TU. Including them once here keeps
+// individual class files from redeclaring CRT/placement-new symbols (which
+// clash when another file pulls in <vector>/<new>/<string.h>).
+#include <new>
+#include <string.h>
+#include <stdlib.h>
+
 // A hashed string handle. Freelancer stores strings as a single 32-bit id.
 // Size 4; assigned/compared as a plain dword by the original codegen.
 struct CacheString {

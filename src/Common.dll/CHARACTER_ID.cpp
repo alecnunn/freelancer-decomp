@@ -9,9 +9,7 @@
 // of these functions index past byte 0 (and the copy is a strcpy, not a fixed
 // memcpy), the total buffer size is not recoverable from- and does not affect-
 // the emitted code; a plausible fixed size is used here.
-#include "common.h"
-
-extern "C" int __cdecl stricmp(const char* a, const char* b);
+#include "common.h"  // provides stricmp via <string.h>
 
 struct CHARACTER_ID {
     char m_id[64];
