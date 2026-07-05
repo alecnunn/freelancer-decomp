@@ -18,6 +18,11 @@ struct CacheString {
     unsigned int id;
 };
 
+// An interned identifier string (nickname hash). Size 4.
+struct ID_String {
+    unsigned int id;
+};
+
 // Global constant: the "no sub-object" id sentinel (?SUBOBJ_ID_NONE@@3GB).
 extern const unsigned short SUBOBJ_ID_NONE;
 

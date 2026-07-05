@@ -15,6 +15,7 @@
 #include "Common.dll/CObject.cpp"
 #include "Common.dll/CShip.cpp"
 #include "Common.dll/CSimple.cpp"
+#include "Common.dll/CSolar.cpp"
 #include "Common.dll/CollisionGroupDesc.cpp"
 #include "Common.dll/CostumeDescriptions.cpp"
 #include "Common.dll/Csys.cpp"
