@@ -36,10 +36,21 @@ struct CObject : EngineObject {
     long part_to_inst(unsigned int part) const;
     unsigned int inst_to_part(long inst) const;
     bool is_shield_part(unsigned int part) const;
+    virtual float get_mass() const;
+    virtual Vector get_center_of_mass() const;
+    Vector get_moment_of_inertia() const;
 
     // Declared so derived classes' base-qualified calls resolve (defined elsewhere).
     virtual void open(Archetype::Root* arch);
 };
+
+// PhySys free functions used by the physics accessors (defined in another unit;
+// with no link the undefined externals are harmless -- only the reloc name matters).
+namespace PhySys {
+    float  GetMass(const CObject* obj);
+    Vector GetCenterOfMass(const CObject* obj);
+    Vector GetMomentOfInertia(const CObject* obj);
+}
 
 unsigned int CObject::AddRef() { return ++m_ref_count; }
 
@@ -64,4 +75,26 @@ bool CObject::is_shield_part(unsigned int part) const {
         if (i->part_id == part)
             return i->shield;
     return false;
+}
+
+float CObject::get_mass() const {
+    if (m_phys != 0)
+        return PhySys::GetMass(this);
+    return *(const float*)((const char*)m_arch + 0x20);
+}
+
+Vector CObject::get_center_of_mass() const {
+    if (m_phys != 0)
+        return PhySys::GetCenterOfMass(this);
+    return m_position;
+}
+
+Vector CObject::get_moment_of_inertia() const {
+    if (m_phys != 0)
+        return PhySys::GetMomentOfInertia(this);
+    Vector v;
+    v.x = 0;
+    v.y = 0;
+    v.z = 0;
+    return v;
 }
