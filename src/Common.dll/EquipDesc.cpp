@@ -2,6 +2,8 @@
 // Recovered from Common.dll; size 0x20. Symbol-rich unit: real member
 // functions mangle to the original symbols and pair automatically.
 #include "common.h"
+#include <list>
+#include <vector>
 
 struct EquipDesc {
     unsigned char  m_byte0;      // +0x00
@@ -84,3 +86,8 @@ bool EquipDesc::operator>(const EquipDesc& o) const { return m_id > o.m_id; }
 // container instantiations (std::vector/list<EquipDesc>) ODR-use them. They
 // will fall out when those containers are implemented; matching them in
 // isolation is not possible since MSVC inlines the trivial copy here.
+
+// Instantiate the STL containers the original uses over EquipDesc, letting
+// the period-correct Dinkumware headers emit byte-matching code.
+template class std::list<EquipDesc>;
+template class std::vector<EquipDesc>;
