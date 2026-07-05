@@ -41,22 +41,23 @@ struct bp_string {
         _Len = 0;
         _Res = 0;
     }
-    ~bp_string();
-};
-
-bp_string::~bp_string() {
-    if (_Ptr != 0) {
-        char* _R = _Ptr - 1;
-        char c = *_R;
-        if (c == 0 || c == (char)0xff)
-            ::operator delete(_R);
-        else
-            *_R = (char)(c - 1);
+    // Defined inline so /O2 inlines the ref-count-decrement/deallocate body
+    // directly into bodypart::~bodypart (the original inlines the string's
+    // _Tidy(true) rather than emitting a tail call to a separate dtor).
+    ~bp_string() {
+        if (_Ptr != 0) {
+            char c = _Ptr[-1];
+            char* _R = _Ptr - 1;
+            if (c == 0 || c == (char)0xff)
+                ::operator delete(_R);
+            else
+                *_R = (char)(c - 1);
+        }
+        _Ptr = 0;
+        _Len = 0;
+        _Res = 0;
     }
-    _Ptr = 0;
-    _Len = 0;
-    _Res = 0;
-}
+};
 
 // --- bodypart ---------------------------------------------------------------
 struct bodypart {

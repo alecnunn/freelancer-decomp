@@ -33,6 +33,12 @@ public:
     Vector position;
 };
 
+// Per-hardpoint record held by HardpointSummary (mangles as struct 'U').
+// Opaque 0x48-byte blob until its fields are recovered.
+struct HardpointInfo {  // size 0x48
+    unsigned char _pad[0x48];
+};
+
 namespace Archetype {
 // Runtime class-type tag returned by each archetype's virtual get_class_type().
 // Values are the constants each subclass returns (mov eax,IMM; ret); the enum

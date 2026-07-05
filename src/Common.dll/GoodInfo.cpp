@@ -23,6 +23,12 @@ struct GoodInfo {
 // ?has_visual_attachment@GoodInfo@@QBE_NXZ
 // The CacheString id at +0x84 is used as a char pointer; the good has a visual
 // attachment iff that string is non-empty (first byte != 0).
+// NOTE: caps at 66.29%. The original materializes the bool via a branch
+// (mov dl,[ecx]; xor al,al; test dl,dl; je; mov al,1) with the pointer kept in
+// ecx; MSVC6 here emits the /O2 setne idiom into eax instead. Neither
+// optimize("s") nor the if/return or char-return forms reproduce the branch +
+// ecx scheduling -- the same orthogonal register-scheduling cap noted for the
+// comparison operators. Left as the cleanest expression.
 bool GoodInfo::has_visual_attachment() const {
     return *reinterpret_cast<const char*>(m_visual.id) != 0;
 }
