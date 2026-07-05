@@ -2,6 +2,7 @@
 // Recovered from Common.dll; size 0x0C. Symbol-rich unit: real member
 // functions mangle to the original symbols and pair automatically.
 #include "common.h"
+#include <list>
 
 struct DamageEntry {
     enum SubObjFate {
@@ -46,3 +47,6 @@ bool DamageEntry::operator<(const DamageEntry& o) const {
 bool DamageEntry::operator>(const DamageEntry& o) const {
     return o.m_subobj_id > m_subobj_id;
 }
+
+// STL container the original instantiates over DamageEntry.
+template class std::list<DamageEntry>;

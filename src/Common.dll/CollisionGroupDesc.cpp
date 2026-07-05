@@ -4,6 +4,7 @@
 // pair automatically. Ordering is by m_id (see CArchGroup::GetCollisionGroupDesc,
 // which fills m_id from the arch sub-object id and m_health from hit_pts/max).
 #include "common.h"
+#include <list>
 
 struct CollisionGroupDesc {
     unsigned short m_id;      // +0x00  sub-object id
@@ -23,3 +24,6 @@ bool CollisionGroupDesc::operator!=(const CollisionGroupDesc& o) const { return 
 bool CollisionGroupDesc::operator<(const CollisionGroupDesc& o) const { return m_id < o.m_id; }
 bool CollisionGroupDesc::operator>(const CollisionGroupDesc& o) const { return m_id > o.m_id; }
 #pragma optimize("", on)
+
+// STL container the original instantiates over CollisionGroupDesc.
+template class std::list<CollisionGroupDesc>;
