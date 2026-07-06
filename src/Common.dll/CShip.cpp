@@ -2,6 +2,7 @@
 // fields from ~0x21c. Modeled flat (offset-based bodies); the leading pad
 // includes the vftable pointer's 4 bytes so fields land at their real offsets.
 #include "common.h"
+#include "archetype.h"
 
 enum BayState { };
 enum StrafeDir { };
@@ -9,7 +10,7 @@ struct IObjRW;
 
 struct CShip {
     unsigned char  _pad_0x00[0x88];    // +0x00 .. +0x88  vftable + EngineObject base
-    void*          m_arch;             // +0x88  archetype (max bank angle at +0x12c)
+    Archetype::Ship* m_arch;           // +0x88  ship archetype
     unsigned char  _pad_0x8c[0x194];   // +0x8c .. +0x220
     char*          m_target;           // +0x220 stored target (get_target returns it - 8)
     unsigned char  _pad_0x224[4];      // +0x224
@@ -39,7 +40,7 @@ struct CShip {
 BayState CShip::get_bay_state() const { return m_bay_state; }
 float CShip::get_throttle() const { return m_throttle; }
 const Vector& CShip::get_axis_throttle() const { return m_axis_throttle; }
-float CShip::get_max_bank_angle() const { return *(const float*)((const char*)m_arch + 0x12c); }
+float CShip::get_max_bank_angle() const { return m_arch->max_bank_angle; }
 float CShip::get_thrust_power() const { return m_thrust_power; }
 float CShip::get_max_thrust_power() const { return m_max_thrust_power; }
 float CShip::get_thrust_power_ratio() const {

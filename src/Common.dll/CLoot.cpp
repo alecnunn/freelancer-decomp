@@ -2,8 +2,7 @@
 // from 0xe4. Modeled flat; the leading pad includes the vftable pointer so
 // fields land at their real offsets.
 #include "common.h"
-
-namespace Archetype { struct Equipment; }
+#include "archetype.h"
 
 struct CLoot {
     unsigned char _pad_0x00[0xe4];      // +0x00 .. +0xe4  vftable + CObject base
@@ -30,7 +29,7 @@ Archetype::Equipment* CLoot::contents_arch() const { return m_contents_arch; }
 unsigned int CLoot::get_units() const { return m_units; }
 float CLoot::get_contents_hit_pts() const { return m_contents_hit_pts; }
 float CLoot::get_volume() const {
-    return (float)m_units * *(const float*)((const char*)m_contents_arch + 0x5c);
+    return (float)m_units * m_contents_arch->volume;
 }
 bool CLoot::can_ai_tractor() const { return m_can_ai_tractor; }
 bool CLoot::is_loot_temporary() const { return m_is_loot_temporary; }

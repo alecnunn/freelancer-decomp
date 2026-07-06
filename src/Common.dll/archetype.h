@@ -72,6 +72,12 @@ struct Engine : Root {
 // Shield-generator archetype (fields TBD; type needed for ShieldGenArch()).
 struct ShieldGenerator : Root { };
 
+// Ship archetype (flyable-ship parameters).
+struct Ship : Root {
+    unsigned char _pad_0x70[0xbc];   // +0x70 .. +0x12c
+    float         max_bank_angle;    // +0x12c
+};
+
 } // namespace Archetype
 
 #endif // COMMON_DLL_ARCHETYPE_H
