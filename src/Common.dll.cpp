@@ -20,6 +20,7 @@
 #include "Common.dll/CAttachedEquip.cpp"
 #include "Common.dll/CBase.cpp"
 #include "Common.dll/CEEngine.cpp"
+#include "Common.dll/CEGun.cpp"
 #include "Common.dll/CEShield.cpp"
 #include "Common.dll/CEquip.cpp"
 #include "Common.dll/CHARACTER_ID.cpp"

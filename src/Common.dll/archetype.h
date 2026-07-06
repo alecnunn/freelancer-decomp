@@ -54,7 +54,11 @@ struct RepairKit             : Root { virtual AClassType get_class_type() const;
 struct ShieldBattery         : Root { virtual AClassType get_class_type() const; };
 struct CloakingDevice        : Root { virtual AClassType get_class_type() const; };
 struct Projectile            : Root { virtual AClassType get_class_type() const; };
-struct Munition              : Root { virtual AClassType get_class_type() const; };
+struct Munition              : Root {
+    unsigned char _pad_0x70[0x20];   // +0x70 .. +0x90
+    int           guidance;          // +0x90  guidance type (0 = unguided)
+    virtual AClassType get_class_type() const;
+};
 struct Mine                  : Root { virtual AClassType get_class_type() const; };
 struct CounterMeasure        : Root { virtual AClassType get_class_type() const; };
 struct Armor                 : Root { virtual AClassType get_class_type() const; };
