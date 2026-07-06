@@ -57,12 +57,14 @@ jobs:
       - name: Re-apply per-unit compiler flags (fl drops /GX, /G6)
         run: python scripts/apply_unit_cflags.py
 
-      # The gate: compile the units that have source with no `|| true`, so a real
-      # compile error fails the PR check (empty stubs are excluded).
+      # The gate: compile every unit with the real toolchain flags and no
+      # `|| true`, so any compile error fails the PR check. Building all units
+      # (empty stubs compile to empty objs in ~no time) also populates the object
+      # files objdiff needs for the full report below.
       - name: Build (gate)
         run: |
           set -euo pipefail
-          units=$(python scripts/units_with_source.py)
+          units=$(python -c "import json; print(' '.join(u['name'].split('/')[-1] for u in json.load(open('objdiff.json'))['units']))")
           echo "Building: $units"
           fl build $units
 
