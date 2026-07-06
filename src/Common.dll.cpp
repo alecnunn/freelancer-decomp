@@ -17,6 +17,7 @@
 #include "Common.dll/Archetype_class_types.cpp"
 #include "Common.dll/BaseWatcher.cpp"
 #include "Common.dll/CAsteroid.cpp"
+#include "Common.dll/CAttachedEquip.cpp"
 #include "Common.dll/CBase.cpp"
 #include "Common.dll/CEEngine.cpp"
 #include "Common.dll/CEShield.cpp"

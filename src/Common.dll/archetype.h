@@ -33,7 +33,11 @@ struct Root {
 //     those layouts are recovered. ---
 struct Asteroid              : Root { virtual AClassType get_class_type() const; };
 struct DynamicAsteroid       : Root { virtual AClassType get_class_type() const; };
-struct Equipment             : Root { virtual AClassType get_class_type() const; };
+struct Equipment             : Root {
+    unsigned char _pad_0x70[0x14];   // +0x70 .. +0x84
+    int           toughness;         // +0x84  loot/debris toughness
+    virtual AClassType get_class_type() const;
+};
 struct AttachedEquipment     : Root { virtual AClassType get_class_type() const; };
 struct LootCrate             : Root { virtual AClassType get_class_type() const; };
 struct Thruster              : Root { virtual AClassType get_class_type() const; };
