@@ -1,0 +1,105 @@
+# PR build gate + progress report.
+#
+# On every pull request to main this builds the units that have source with the
+# real toolchain flags (so a compile error fails the check) and posts / updates a
+# single sticky comment comparing this PR's match counts against main's last
+# measured state (from the gh-pages dashboard data).
+name: PR Build & Progress
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write   # to upsert the progress comment
+
+# A new push to the PR supersedes the previous (still-running) check.
+concurrency:
+  group: pr-progress-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Wine (MSVC 6.0 runs under Wine on Linux)
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends wine wine32
+
+      - name: Install fl (latest flboot release)
+        run: |
+          set -euo pipefail
+          url=$(curl -fsSL -H "Authorization: Bearer ${{ github.token }}" \
+                  https://api.github.com/repos/alecnunn/flboot/releases/latest \
+                | grep -oE '"browser_download_url": *"[^"]*linux-gnu\.tar\.gz"' \
+                | grep -oE 'https[^"]*')
+          test -n "$url"
+          curl -fsSL "$url" | sudo tar -xz -C /usr/local/bin fl
+          sudo chmod +x /usr/local/bin/fl
+          fl --version
+
+      - name: Bootstrap toolchain, originals, and delink targets
+        run: fl bootstrap
+
+      - name: Re-apply per-unit compiler flags (fl drops /GX, /G6)
+        run: python scripts/apply_unit_cflags.py
+
+      # The gate: compile the units that have source with no `|| true`, so a real
+      # compile error fails the PR check (empty stubs are excluded).
+      - name: Build (gate)
+        run: |
+          set -euo pipefail
+          units=$(python scripts/units_with_source.py)
+          echo "Building: $units"
+          fl build $units
+
+      - name: Generate objdiff report
+        run: |
+          objdiff=$(find build/tools -name 'objdiff-cli-*' -type f | head -1)
+          test -x "$objdiff" || { echo "::error::objdiff-cli not found"; exit 1; }
+          "$objdiff" report generate -o report.json
+
+      - name: Fetch main's progress baseline (from gh-pages)
+        run: |
+          if git fetch --depth=1 origin gh-pages 2>/dev/null; then
+            git show FETCH_HEAD:data/latest.json > baseline.json 2>/dev/null || true
+          fi
+
+      - name: Render progress comment
+        run: |
+          python scripts/pr_progress_comment.py \
+            --report report.json \
+            --baseline baseline.json \
+            --sha "${{ github.event.pull_request.head.sha }}" \
+            --out comment.md
+
+      - name: Upsert sticky progress comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('comment.md', 'utf8');
+            const marker = '<!-- decomp-progress -->';
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const comments = await github.paginate(github.rest.issues.listComments,
+              { owner, repo, issue_number });
+            const prev = comments.find(c => (c.body || '').includes(marker));
+            if (prev) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: prev.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
