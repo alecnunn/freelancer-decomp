@@ -23,8 +23,11 @@ struct CShip : CEqObj {
     float          m_max_thrust_power; // +0x2a4
     unsigned char  _pad_0x2a8[4];      // +0x2a8
     BayState       m_bay_state;        // +0x2ac
+    unsigned char  _pad_0x2b0[0xc];    // +0x2b0
+    bool           m_using_tradelane;  // +0x2bc
 
     BayState get_bay_state() const;
+    void use_tradelane(bool use);
     float get_throttle() const;
     const Vector& get_axis_throttle() const;
     float get_max_bank_angle() const;
@@ -37,6 +40,7 @@ struct CShip : CEqObj {
 };
 
 BayState CShip::get_bay_state() const { return m_bay_state; }
+void CShip::use_tradelane(bool use) { m_using_tradelane = use; }
 float CShip::get_throttle() const { return m_throttle; }
 const Vector& CShip::get_axis_throttle() const { return m_axis_throttle; }
 float CShip::get_max_bank_angle() const {
