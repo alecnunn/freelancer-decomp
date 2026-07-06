@@ -4,8 +4,8 @@
 // region plus CObject's own fields); CSimple derives from it. Only offsets
 // touched by matched methods are named.
 #include "EngineObject.h"
+#include "archetype.h"
 
-namespace Archetype { struct Root; }
 struct IObjDB;
 
 // One entry of CObject's part<->instance map (size 0x0c).
@@ -95,7 +95,7 @@ bool CObject::flag_part_as_shield(unsigned int part) {
 float CObject::get_mass() const {
     if (m_phys != 0)
         return PhySys::GetMass(this);
-    return *(const float*)((const char*)m_arch + 0x20);
+    return m_arch->mass;
 }
 
 Vector CObject::get_center_of_mass() const {

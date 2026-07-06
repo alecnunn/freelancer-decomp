@@ -3,6 +3,7 @@
 // polymorphic class recovered from Common.dll; own fields begin at +0x88 atop
 // the base subobjects. Only the offsets touched by matched methods are named.
 #include "common.h"
+#include "archetype.h"
 
 // CObject (the base, incl. m_arch@0x88) is defined in CObject.cpp, included
 // earlier in the unity build. CSimple adds its own fields from +0xa0.
@@ -41,14 +42,14 @@ bool CSimple::is_targetable() const { return m_flags & 1; }
 IObjDB* CSimple::get_object_database() const { return m_object_db; }
 float CSimple::get_hit_pts() const { return m_hit_pts; }
 void CSimple::set_hit_pts(float hp) { m_hit_pts = hp; }
-float CSimple::get_max_hit_pts() const { return *(const float*)((const char*)m_arch + 0x1c); }
+float CSimple::get_max_hit_pts() const { return m_arch->hit_pts; }
 float CSimple::get_relative_health() const {
-    return m_hit_pts / *(const float*)((const char*)m_arch + 0x1c);
+    return m_hit_pts / m_arch->hit_pts;
 }
 void CSimple::connect(IObjDB* db) { m_object_db = db; }
 void CSimple::disconnect(IObjDB* db) { if (m_object_db == db) m_object_db = 0; }
 void CSimple::open(Archetype::Root* arch) {
     CObject::open(arch);
     if (m_type == 0)
-        m_type = *(const unsigned int*)((const char*)m_arch + 0x10);
+        m_type = m_arch->class_type;
 }

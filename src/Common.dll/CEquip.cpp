@@ -3,8 +3,8 @@
 // virtuals are declared in true vtable order (slot 0 = deleting dtor) so the
 // self-dispatch methods (e.g. IsFunctioning) emit the right vtable offsets.
 #include "common.h"
+#include "archetype.h"
 
-namespace Archetype { struct Equipment; }
 unsigned int Arch2Good(unsigned int arch);   // ?Arch2Good@@YAII@Z
 
 struct CEquip {
@@ -12,7 +12,7 @@ struct CEquip {
     unsigned char  _pad_0x04[4];   // +0x04
     unsigned short m_id;           // +0x08  equipment id
     unsigned char  _pad_0x0a[2];   // +0x0a
-    Archetype::Equipment* m_arch;  // +0x0c  archetype (max hit pts at +0x1c)
+    Archetype::Root* m_arch;       // +0x0c  archetype (equipment data)
     bool           m_active;       // +0x10
     bool           m_destroyed;    // +0x11
     bool           m_temporary;    // +0x12
@@ -45,8 +45,8 @@ bool CEquip::IsFunctioning() const {
 bool CEquip::_is_disabled() const { return false; }
 bool CEquip::IsTemporary() const { return m_temporary; }
 bool CEquip::IsLootable() const {
-    if (*(const int*)((const char*)m_arch + 0x6c) != 0)
-        return Arch2Good(*(const unsigned int*)((const char*)m_arch + 8)) != 0;
+    if (m_arch->lootable != 0)
+        return Arch2Good(m_arch->good_id) != 0;
     return false;
 }
-float CEquip::GetMaxHitPoints() const { return *(const float*)((const char*)m_arch + 0x1c); }
+float CEquip::GetMaxHitPoints() const { return m_arch->hit_pts; }
