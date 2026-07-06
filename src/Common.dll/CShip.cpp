@@ -1,6 +1,7 @@
 // CShip -- a controllable ship. Derives CObject<-CSimple<-CEqObj<-CShip; own
-// fields from ~0x21c. Modeled flat (offset-based bodies); the leading pad
-// includes the vftable pointer's 4 bytes so fields land at their real offsets.
+// fields from +0x1a8 (CEqObj's size). CEqObj is defined earlier in the unity
+// build. The ship archetype is the inherited CObject::m_arch@0x88 (a Root* that
+// actually points at an Archetype::Ship).
 #include "common.h"
 #include "archetype.h"
 
@@ -8,10 +9,8 @@ enum BayState { };
 enum StrafeDir { };
 struct IObjRW;
 
-struct CShip {
-    unsigned char  _pad_0x00[0x88];    // +0x00 .. +0x88  vftable + EngineObject base
-    Archetype::Ship* m_arch;           // +0x88  ship archetype
-    unsigned char  _pad_0x8c[0x194];   // +0x8c .. +0x220
+struct CShip : CEqObj {
+    unsigned char  _pad_0x1a8[0x78];   // +0x1a8 .. +0x220
     char*          m_target;           // +0x220 stored target (get_target returns it - 8)
     unsigned char  _pad_0x224[4];      // +0x224
     unsigned short m_sub_target;       // +0x228
@@ -40,7 +39,9 @@ struct CShip {
 BayState CShip::get_bay_state() const { return m_bay_state; }
 float CShip::get_throttle() const { return m_throttle; }
 const Vector& CShip::get_axis_throttle() const { return m_axis_throttle; }
-float CShip::get_max_bank_angle() const { return m_arch->max_bank_angle; }
+float CShip::get_max_bank_angle() const {
+    return ((const Archetype::Ship*)m_arch)->max_bank_angle;
+}
 float CShip::get_thrust_power() const { return m_thrust_power; }
 float CShip::get_max_thrust_power() const { return m_max_thrust_power; }
 float CShip::get_thrust_power_ratio() const {

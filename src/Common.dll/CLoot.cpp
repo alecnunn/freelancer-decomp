@@ -1,11 +1,10 @@
 // CLoot -- a dropped loot/cargo container. Derives CObject<-CLoot; own fields
-// from 0xe4. Modeled flat; the leading pad includes the vftable pointer so
-// fields land at their real offsets.
+// from +0xa0 (CObject's size). CObject is defined earlier in the unity build.
 #include "common.h"
 #include "archetype.h"
 
-struct CLoot {
-    unsigned char _pad_0x00[0xe4];      // +0x00 .. +0xe4  vftable + CObject base
+struct CLoot : CObject {
+    unsigned char _pad_0xa0[0x44];      // +0xa0 .. +0xe4
     unsigned int  m_owner;              // +0xe4
     unsigned char _pad_0xe8[4];         // +0xe8  (container arch)
     Archetype::Equipment* m_contents_arch; // +0xec

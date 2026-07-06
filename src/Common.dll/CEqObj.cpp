@@ -18,6 +18,7 @@ struct CEqObj : CSimple {
     IBehaviorManager* m_behavior;    // +0x194
     float         m_power;           // +0x198
     float         m_max_power;       // +0x19c
+    unsigned char _pad_0x1a0[8];     // +0x1a0 .. +0x1a8  (pad to true class size 0x1a8)
 
     int get_vibe() const;
     void set_power(float power);

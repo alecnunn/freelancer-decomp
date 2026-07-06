@@ -1,13 +1,10 @@
 // CSolar -- a fixed/solar-system object (planet, station, gate, ring, ...).
-// Derives CObject<-CSimple<-CEqObj<-CSolar; own fields from ~0x1a8, plus it
-// reuses the inherited type-flags word at +0xe0. Modeled flat; the leading pad
-// includes the vftable pointer so fields land at their real offsets.
+// Derives CObject<-CSimple<-CEqObj<-CSolar; own fields from +0x1a8 (CEqObj's
+// size). CEqObj is defined earlier in the unity build. The is_planetary/gate/
+// ring predicates read the inherited CSimple::m_type@0xe0 as a bitfield.
 #include "common.h"
 
-struct CSolar {
-    unsigned char _pad_0x00[0xe0];      // +0x00 .. +0xe0  vftable + base subobjects
-    unsigned int  m_type_flags;         // +0xe0  (bitfield: planetary/gate/ring/...)
-    unsigned char _pad_0xe4[0xc4];      // +0xe4 .. +0x1a8
+struct CSolar : CEqObj {
     bool          m_destructible;       // +0x1a8
     bool          m_dynamic;            // +0x1a9
     unsigned char _pad_0x1aa[2];        // +0x1aa
@@ -40,10 +37,10 @@ struct CSolar {
     const ID_String& GetParentNickname() const;
 };
 
-bool CSolar::is_planetary() const { return (m_type_flags & 7) != 0; }
-bool CSolar::is_system_gate() const { return m_type_flags == (m_type_flags & 0xc40); }
-bool CSolar::is_waypoint() const { return (m_type_flags >> 9) & 1; }
-bool CSolar::is_lane_ring() const { return (m_type_flags >> 7) & 1; }
+bool CSolar::is_planetary() const { return (m_type & 7) != 0; }
+bool CSolar::is_system_gate() const { return m_type == (m_type & 0xc40); }
+bool CSolar::is_waypoint() const { return (m_type >> 9) & 1; }
+bool CSolar::is_lane_ring() const { return (m_type >> 7) & 1; }
 bool CSolar::is_destructible() const { return m_destructible; }
 bool CSolar::is_dynamic() const { return m_dynamic; }
 float CSolar::get_atmosphere_range() const { return m_atmosphere_range; }
