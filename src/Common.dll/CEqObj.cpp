@@ -27,6 +27,7 @@ struct CEqObj : CSimple {
     void set_control_exclusion(unsigned int mask);
     bool is_control_excluded(unsigned int mask) const;
     IBehaviorManager* get_behavior_interface();
+    virtual bool is_targetable() const;   // overrides CSimple: also requires not cloaked
     int is_cloaked() const;
     float get_cloak_percentage() const;
     bool is_base() const;
@@ -43,6 +44,13 @@ void CEqObj::set_power(float power) { m_power = power; }
 void CEqObj::set_control_exclusion(unsigned int mask) { m_control_exclusion = mask; }
 bool CEqObj::is_control_excluded(unsigned int mask) const { return (m_control_exclusion & mask) != 0; }
 IBehaviorManager* CEqObj::get_behavior_interface() { return m_behavior; }
+bool CEqObj::is_targetable() const {
+    if (m_targetable) {
+        if (m_cloak < *(const float*)(_delink_ida_const_start + 0xe1c))
+            return 1;
+    }
+    return 0;
+}
 int CEqObj::is_cloaked() const {
     if (m_cloak >= 1.0f)
         return 1;

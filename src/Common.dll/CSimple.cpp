@@ -8,7 +8,9 @@
 // CObject (the base, incl. m_arch@0x88) is defined in CObject.cpp, included
 // earlier in the unity build. CSimple adds its own fields from +0xa0.
 struct CSimple : CObject {
-    unsigned char    m_targetable : 1; // +0xa0  bit 0
+    // +0xa0  object state-flags byte. Only bit 0 (targetable) is referenced by
+    // recovered accessors; the remaining bits are not yet mapped.
+    unsigned char    m_targetable : 1; // bit 0
     unsigned char    m_flags_rest : 7;
     unsigned char    _pad_0xa1[3];     // +0xa1
     void*            m_scanner_src;    // +0xa4  object queried for scanner interference
@@ -18,7 +20,7 @@ struct CSimple : CObject {
     unsigned int     m_owner_player;   // +0xb4
     float            m_hit_pts;        // +0xb8
     unsigned char    _pad_0xbc[0x24];  // +0xbc
-    unsigned int     m_type;           // +0xe0  (last field; class size 0xe4)
+    unsigned int     m_type;           // +0xe0  ObjectType bitmask (get_type)
 
     const unsigned int& get_id() const;
     unsigned int get_type() const;

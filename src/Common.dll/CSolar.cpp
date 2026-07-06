@@ -37,10 +37,10 @@ struct CSolar : CEqObj {
     const ID_String& GetParentNickname() const;
 };
 
-bool CSolar::is_planetary() const { return (m_type & 7) != 0; }
-bool CSolar::is_system_gate() const { return m_type == (m_type & 0xc40); }
-bool CSolar::is_waypoint() const { return (m_type >> 9) & 1; }
-bool CSolar::is_lane_ring() const { return (m_type >> 7) & 1; }
+bool CSolar::is_planetary() const { return (m_type & OBJ_PLANETARY_BODY) != 0; }
+bool CSolar::is_system_gate() const { return m_type == (m_type & OBJ_SYSTEM_GATE); }
+bool CSolar::is_waypoint() const { return (m_type >> 9) & 1; }   // OBJ_WAYPOINT (bit 9)
+bool CSolar::is_lane_ring() const { return (m_type >> 7) & 1; }  // OBJ_TRADELANE_RING (bit 7)
 bool CSolar::is_destructible() const { return m_destructible; }
 bool CSolar::is_dynamic() const { return m_dynamic; }
 float CSolar::get_atmosphere_range() const { return m_atmosphere_range; }
