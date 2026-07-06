@@ -51,15 +51,15 @@ current per-unit standing, and a recent-merges table with per-merge deltas.
 
 ## One-time setup
 
-1. **Wire up `fl` in the workflow.** The `Install the fl toolchain driver` step
-   in `.github/workflows/decomp-dashboard.yml` is a placeholder — replace it with
-   however you obtain `fl` in CI, e.g.:
+1. **`fl` toolchain — already wired.** The workflow downloads the latest
+   [`flboot`](https://github.com/alecnunn/flboot) Linux release binary and
+   installs Wine (MSVC 6.0 runs under Wine on Linux); `ubuntu-latest` already
+   ships cargo. To build `fl` from source instead, swap the *Install fl* step for:
    ```yaml
-   - name: Install the fl toolchain driver
-     run: cargo install --locked --git https://github.com/<you>/fl fl
+   - run: cargo install --locked --git https://github.com/alecnunn/flboot fl
    ```
-   Everything downstream (`fl bootstrap`/`build`, `objdiff-cli`) is fetched by
-   `fl bootstrap`.
+   Everything downstream (`fl bootstrap`/`build`, `objdiff-cli`, the originals,
+   and the delink targets) is fetched by `fl bootstrap`.
 
 2. **Enable GitHub Pages.** Repo → *Settings → Pages* → *Build and deployment* →
    *Source: Deploy from a branch* → **Branch: `gh-pages` / `(root)`**. The branch
