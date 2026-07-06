@@ -4,6 +4,10 @@
 #include "common.h"
 #include "archetype.h"
 
+extern "C" __declspec(dllimport) char* __cdecl itoa(int value, char* buf, int radix);
+extern "C" char _delink_ida_const_start[];   // delinked read-only const blob
+namespace PhySys { void SetCollisionGroup(CObject* obj, const char* const group); }
+
 struct CLoot : CSimple {
     unsigned int  m_owner;              // +0xe4
     unsigned int  m_name;               // +0xe8  explicit name id (0 = use arch)
@@ -24,6 +28,7 @@ struct CLoot : CSimple {
     bool can_ai_tractor() const;
     bool is_loot_temporary() const;
     virtual unsigned int get_name() const;
+    virtual int update(float dt, unsigned int flags);
 };
 
 unsigned int CLoot::get_owner() const { return m_owner; }
@@ -43,4 +48,21 @@ unsigned int CLoot::get_name() const {
     if (n != 0)
         return n;
     return m_contents_arch->id_name;
+}
+
+// Per-frame: run zone logic, count down the owner-only tractor grace period
+// (resetting the collision group to the instance id when it expires), then the
+// base object update.
+int CLoot::update(float dt, unsigned int flags) {
+    CSimple::update_zones(dt, flags);
+    if (m_safe_time > *(const float*)(_delink_ida_const_start + 0x54)) {
+        m_safe_time -= dt;
+        if (m_safe_time <= *(const float*)(_delink_ida_const_start + 0x54)) {
+            char buf[8];
+            itoa(m_id, buf, 0x18);
+            PhySys::SetCollisionGroup(this, buf);
+        }
+    }
+    CObject::update(dt, flags);
+    return 0;
 }

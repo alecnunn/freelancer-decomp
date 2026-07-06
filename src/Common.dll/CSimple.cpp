@@ -32,6 +32,10 @@ struct CSimple : CObject {
     virtual void connect(IObjDB* db);
     virtual void disconnect(IObjDB* db);
     virtual void open(Archetype::Root* arch);
+
+protected:
+    // Base helper invoked by derived update() overrides (defined elsewhere).
+    void update_zones(float dt, unsigned int flags);
 };
 
 const unsigned int& CSimple::get_id() const { return m_id; }

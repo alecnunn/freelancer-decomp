@@ -46,6 +46,7 @@ struct CObject : EngineObject {
 
     // Declared so derived classes' base-qualified calls resolve (defined elsewhere).
     virtual void open(Archetype::Root* arch);
+    virtual int  update(float dt, unsigned int flags);
 };
 
 // PhySys free functions used by the physics accessors (defined in another unit;
