@@ -34,6 +34,7 @@ struct CSolar : CEqObj {
     unsigned int get_next_trade_ring() const;
     unsigned int get_tradelane_space_name() const;
     unsigned char GetVisitValue() const;
+    void SetVisitValue(unsigned char v);
     const ID_String& GetParentNickname() const;
 };
 
@@ -51,4 +52,5 @@ const ID_String& CSolar::get_dest_gate() const { return m_dest_gate; }
 unsigned int CSolar::get_next_trade_ring() const { return m_next_trade_ring; }
 unsigned int CSolar::get_tradelane_space_name() const { return m_tradelane_space_name; }
 unsigned char CSolar::GetVisitValue() const { return m_visit_value; }
+void CSolar::SetVisitValue(unsigned char v) { m_visit_value = v; }
 const ID_String& CSolar::GetParentNickname() const { return m_parent_nickname; }
