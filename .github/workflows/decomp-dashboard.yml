@@ -76,7 +76,11 @@ jobs:
           fl build $UNITS || true
 
       - name: Generate objdiff progress report
-        run: objdiff-cli report generate -o report.json
+        run: |
+          # fl bootstrap fetches objdiff-cli into build/tools (not onto PATH).
+          objdiff=$(find build/tools -name 'objdiff-cli-*' -type f | head -1)
+          test -x "$objdiff" || { echo "::error::objdiff-cli not found under build/tools"; exit 1; }
+          "$objdiff" report generate -o report.json
 
       - name: Snapshot this merge
         run: python scripts/decomp_dashboard.py snapshot --report report.json --out snapshot.json
