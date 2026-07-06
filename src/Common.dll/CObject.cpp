@@ -1,0 +1,135 @@
+// CObject -- the mid-level base of the simulatable-object hierarchy
+// (EngineObject -> CObject -> CSimple -> CEqObj/CShip/CSolar/...). Recovered
+// from Common.dll. Modeled flat here (owns 0x00..0xa0: the EngineObject base
+// region plus CObject's own fields); CSimple derives from it. Only offsets
+// touched by matched methods are named.
+#include "EngineObject.h"
+#include "archetype.h"
+
+struct IObjDB;
+
+// One entry of CObject's part<->instance map (size 0x0c).
+struct CObjPart {
+    unsigned int part_id;   // +0x00
+    long         inst_id;   // +0x04
+    bool         shield;    // +0x08
+    unsigned char _pad9[3]; // +0x09
+};
+
+struct CObject : EngineObject {
+    // EngineObject owns 0x00..0x4c (vftable ptr, m_instance_id@0x04, transform,
+    // m_position@0x2c, radius, ...). CObject's own fields begin at +0x4c.
+    unsigned char _pad_0x4c[8];      // +0x4c .. +0x54
+    void*         m_phys;            // +0x54  physics controller (0 = static)
+    void*         m_surface;         // +0x58  surface-extents record (min@+8, max@+0x14)
+    unsigned int  m_part_count;      // +0x5c  0 = no sub-parts
+    unsigned char _pad_0x60[8];      // +0x60
+    CObjPart*     m_part_begin;      // +0x68  part-map vector begin
+    CObjPart*     m_part_end;        // +0x6c  part-map vector end
+    unsigned char _pad_0x70[0x18];   // +0x70
+    Archetype::Root* m_arch;         // +0x88  archetype root
+    unsigned char _pad_0x8c[0xc];    // +0x8c
+    unsigned int  m_ref_count;       // +0x98
+    unsigned char _pad_0x9c[4];      // +0x9c  (size rounds to 0xa0)
+
+    unsigned int AddRef();
+    long part_to_inst(unsigned int part) const;
+    unsigned int inst_to_part(long inst) const;
+    bool is_shield_part(unsigned int part) const;
+    bool flag_part_as_shield(unsigned int part);
+    virtual float get_mass() const;
+    virtual Vector get_center_of_mass() const;
+    Vector get_moment_of_inertia() const;
+    virtual bool get_surface_extents(Vector& mn, Vector& mx) const;
+    void add_impulse(const Vector& impulse);
+    void add_impulse(const Vector& impulse, const Vector& point);
+
+    // Declared so derived classes' base-qualified calls resolve (defined elsewhere).
+    virtual void open(Archetype::Root* arch);
+    virtual int  update(float dt, unsigned int flags);
+};
+
+// PhySys free functions used by the physics accessors (defined in another unit;
+// with no link the undefined externals are harmless -- only the reloc name matters).
+namespace PhySys {
+    float  GetMass(const CObject* obj);
+    Vector GetCenterOfMass(const CObject* obj);
+    Vector GetMomentOfInertia(const CObject* obj);
+    void   LinearImpulse(CObject* obj, const Vector& impulse, float scale);
+    void   AddImpulseAtPoint(CObject* obj, const Vector& impulse, const Vector& point);
+}
+
+unsigned int CObject::AddRef() { return ++m_ref_count; }
+
+long CObject::part_to_inst(unsigned int part) const {
+    if (m_part_count == 0)
+        return m_instance_id;
+    for (const CObjPart* i = m_part_begin; i != m_part_end; ++i)
+        if (i->part_id == part)
+            return i->inst_id;
+    return -1;
+}
+
+unsigned int CObject::inst_to_part(long inst) const {
+    for (const CObjPart* i = m_part_begin; i != m_part_end; ++i)
+        if (i->inst_id == inst)
+            return i->part_id;
+    return 0;
+}
+
+bool CObject::is_shield_part(unsigned int part) const {
+    for (const CObjPart* i = m_part_begin; i != m_part_end; ++i)
+        if (i->part_id == part)
+            return i->shield;
+    return false;
+}
+
+bool CObject::flag_part_as_shield(unsigned int part) {
+    for (CObjPart* i = m_part_begin; i != m_part_end; ++i)
+        if (i->part_id == part) {
+            i->shield = true;
+            return true;
+        }
+    return false;
+}
+
+float CObject::get_mass() const {
+    if (m_phys != 0)
+        return PhySys::GetMass(this);
+    return m_arch->mass;
+}
+
+Vector CObject::get_center_of_mass() const {
+    if (m_phys != 0)
+        return PhySys::GetCenterOfMass(this);
+    return m_position;
+}
+
+Vector CObject::get_moment_of_inertia() const {
+    if (m_phys != 0)
+        return PhySys::GetMomentOfInertia(this);
+    Vector v;
+    v.x = 0;
+    v.y = 0;
+    v.z = 0;
+    return v;
+}
+
+bool CObject::get_surface_extents(Vector& mn, Vector& mx) const {
+    if (m_surface != 0) {
+        mn = *(const Vector*)((const char*)m_surface + 8);
+        mx = *(const Vector*)((const char*)m_surface + 0x14);
+        return true;
+    }
+    return false;
+}
+
+void CObject::add_impulse(const Vector& impulse) {
+    if (m_phys != 0)
+        PhySys::LinearImpulse(this, impulse, 1.0f);
+}
+
+void CObject::add_impulse(const Vector& impulse, const Vector& point) {
+    if (m_phys != 0)
+        PhySys::AddImpulseAtPoint(this, impulse, point);
+}

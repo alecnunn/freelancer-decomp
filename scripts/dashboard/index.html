@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freelancer Decomp — Progress Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2230; --line:#30363d;
+    --fg:#e6edf3; --muted:#8b949e; --accent:#2f81f7; --good:#3fb950; --warn:#d29922;
+    --grid:rgba(139,148,158,.15);
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f6f8fa; --panel:#fff; --panel2:#f0f3f6; --line:#d0d7de;
+      --fg:#1f2328; --muted:#636c76; --grid:rgba(31,35,40,.10); }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 60px}
+  header{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;margin-bottom:22px}
+  h1{font-size:22px;margin:0;letter-spacing:.2px}
+  h1 .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);font-weight:600}
+  .sub{color:var(--muted);font-size:13px;margin-left:auto;text-align:right}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .card .k{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+  .card .v{font-size:26px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+  .card .d{font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums}
+  .up{color:var(--good)} .flat{color:var(--muted)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+  .panel h2{font-size:14px;margin:0 0 12px;color:var(--fg);font-weight:600;display:flex;align-items:center;gap:12px}
+  .toggle{margin-left:auto;display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .toggle button{background:transparent;border:0;color:var(--muted);padding:5px 12px;font-size:12px;cursor:pointer;font-weight:600}
+  .toggle button.on{background:var(--accent);color:#fff}
+  .chart-box{position:relative;height:320px}
+  .chart-box.sm{height:260px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+  th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  td.n{text-align:right}
+  .delta-pos{color:var(--good);font-weight:600}
+  .subj{max-width:520px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  footer{color:var(--muted);font-size:12px;margin-top:26px;text-align:center}
+  .empty{color:var(--muted);padding:40px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Freelancer Decomp <span class="mono">// progress</span></h1>
+    <div class="sub" id="updated"></div>
+  </header>
+
+  <section class="cards" id="cards"></section>
+
+  <div class="panel">
+    <h2>Progress over time
+      <span class="toggle" id="mainToggle">
+        <button data-mode="functions" class="on">Functions</button>
+        <button data-mode="remaining">Remaining</button>
+        <button data-mode="code">Code %</button>
+      </span>
+    </h2>
+    <div class="chart-box"><canvas id="mainChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Matched functions by unit (stacked)</h2>
+    <div class="chart-box"><canvas id="stackChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Current state by unit</h2>
+    <div class="chart-box sm"><canvas id="unitChart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>Recent merges</h2>
+    <div style="overflow-x:auto"><table id="mergeTable"><thead><tr>
+      <th>Date</th><th>Commit</th><th>Change</th><th class="n">Matched</th><th class="n">&Delta;</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <footer>
+    Auto-generated on every merge to <code>main</code> ·
+    <a href="data/history.json">history.json</a> ·
+    <a href="data/latest.json">latest.json</a>
+  </footer>
+</div>
+
+<script>
+const PALETTE = ["#2f81f7","#3fb950","#d29922","#a371f7","#f778ba","#e3623f",
+  "#39c5cf","#db6d28","#57ab5a","#8957e5","#c9d1d9","#6e7681"];
+
+function css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function fmt(n){ return n.toLocaleString("en-US"); }
+function pct(n){ return n.toFixed(n < 1 ? 3 : 2) + "%"; }
+function shortDate(iso){ const d = new Date(iso); return isNaN(d) ? "—" : d.toISOString().slice(0,10); }
+
+Chart.defaults.color = css("--muted");
+Chart.defaults.borderColor = css("--grid");
+Chart.defaults.font.family = "ui-monospace,SFMono-Regular,Menlo,monospace";
+
+let HISTORY = [], mainChartObj = null;
+
+fetch("data/history.json", {cache:"no-store"})
+  .then(r => r.ok ? r.json() : [])
+  .then(h => { HISTORY = Array.isArray(h) ? h : []; render(); })
+  .catch(() => render());
+
+function render(){
+  if(!HISTORY.length){
+    document.querySelector(".wrap").insertAdjacentHTML("beforeend",
+      '<div class="empty">No history yet — the first merge to <code>main</code> will populate this.</div>');
+    return;
+  }
+  const last = HISTORY[HISTORY.length-1];
+  const prev = HISTORY.length > 1 ? HISTORY[HISTORY.length-2] : null;
+  document.getElementById("updated").innerHTML =
+    "updated " + shortDate(last.timestamp) + " · <span class='mono'>" +
+    (last.short||"") + "</span> · " + HISTORY.length + " merge" + (HISTORY.length>1?"s":"") + " tracked";
+
+  renderCards(last, prev);
+  renderMain("functions");
+  document.querySelectorAll("#mainToggle button").forEach(b =>
+    b.onclick = () => {
+      document.querySelectorAll("#mainToggle button").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on"); renderMain(b.dataset.mode);
+    });
+  renderStack();
+  renderUnits(last);
+  renderTable();
+}
+
+function renderCards(last, prev){
+  const p = last.project, pp = prev && prev.project;
+  const dFn = pp ? p.matched_functions - pp.matched_functions : 0;
+  const dU  = pp ? countUnitsStarted(last) - countUnitsStarted(prev) : 0;
+  const cards = [
+    {k:"Matched functions", v:fmt(p.matched_functions), d:delta(dFn,"fn")},
+    {k:"of total", v:pct(p.matched_functions_percent), d:fmt(p.total_functions)+" total"},
+    {k:"Code matched", v:pct(p.matched_code_percent), d:fmt(p.matched_code)+" bytes"},
+    {k:"Fuzzy match", v:pct(p.fuzzy_match_percent), d:"instruction-level"},
+    {k:"Units started", v:countUnitsStarted(last), d:delta(dU,"unit")},
+  ];
+  document.getElementById("cards").innerHTML = cards.map(c =>
+    `<div class="card"><div class="k">${c.k}</div><div class="v">${c.v}</div><div class="d">${c.d}</div></div>`
+  ).join("");
+}
+function countUnitsStarted(s){ return s.units.filter(u => u.matched_functions > 0).length; }
+function delta(n, noun){
+  if(!n) return `<span class="flat">no change</span>`;
+  return `<span class="up">+${fmt(n)} ${noun}${Math.abs(n)>1?"s":""}</span>`;
+}
+
+function renderMain(mode){
+  const labels = HISTORY.map(s => shortDate(s.timestamp));
+  let data, label, fill = true, yTitle;
+  if(mode === "functions"){
+    data = HISTORY.map(s => s.project.matched_functions);
+    label = "Matched functions"; yTitle = "functions";
+  } else if(mode === "remaining"){
+    data = HISTORY.map(s => s.project.total_functions - s.project.matched_functions);
+    label = "Remaining functions"; yTitle = "functions";
+  } else {
+    data = HISTORY.map(s => s.project.matched_code_percent);
+    label = "Code matched %"; yTitle = "%";
+  }
+  if(mainChartObj) mainChartObj.destroy();
+  const ctx = document.getElementById("mainChart");
+  mainChartObj = new Chart(ctx, {
+    type:"line",
+    data:{ labels, datasets:[{
+      label, data, fill, tension:.25,
+      borderColor: css("--accent"),
+      backgroundColor: hexA(css("--accent"), .14),
+      pointRadius: HISTORY.length>40?0:3, pointHoverRadius:5,
+      borderWidth:2,
+    }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      interaction:{mode:"index",intersect:false},
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{title:(t)=>fullTitle(t[0].dataIndex)}} },
+      scales:{ y:{ beginAtZero: mode!=="remaining", title:{display:true,text:yTitle},
+                   grid:{color:css("--grid")} },
+               x:{ grid:{display:false} } } }
+  });
+}
+function fullTitle(i){
+  const s = HISTORY[i];
+  return shortDate(s.timestamp) + "  " + (s.short||"") + "\n" + (s.subject||"");
+}
+
+function renderStack(){
+  const labels = HISTORY.map(s => shortDate(s.timestamp));
+  // Top units by latest matched count; fold the rest into "other".
+  const latest = HISTORY[HISTORY.length-1].units;
+  const top = latest.filter(u=>u.matched_functions>0)
+    .sort((a,b)=>b.matched_functions-a.matched_functions).slice(0,8).map(u=>u.name);
+  const series = {};
+  top.forEach(n => series[n] = []);
+  series["other"] = [];
+  HISTORY.forEach(s => {
+    const byName = Object.fromEntries(s.units.map(u=>[u.name,u.matched_functions]));
+    let other = 0;
+    s.units.forEach(u => { if(!top.includes(u.name)) other += u.matched_functions; });
+    top.forEach(n => series[n].push(byName[n]||0));
+    series["other"].push(other);
+  });
+  const names = [...top, "other"];
+  new Chart(document.getElementById("stackChart"), {
+    type:"line",
+    data:{ labels, datasets: names.map((n,i)=>({
+      label:n, data:series[n], fill:true, stack:"s", tension:.2,
+      borderColor:PALETTE[i%PALETTE.length],
+      backgroundColor:hexA(PALETTE[i%PALETTE.length], .55),
+      pointRadius:0, borderWidth:1,
+    }))},
+    options:{ responsive:true, maintainAspectRatio:false,
+      interaction:{mode:"index",intersect:false},
+      plugins:{ legend:{position:"bottom",labels:{boxWidth:12,padding:10}},
+        tooltip:{callbacks:{title:(t)=>fullTitle(t[0].dataIndex)}} },
+      scales:{ y:{stacked:true,title:{display:true,text:"matched functions"},grid:{color:css("--grid")}},
+               x:{grid:{display:false}} } }
+  });
+}
+
+function renderUnits(last){
+  const u = last.units.filter(x=>x.matched_functions>0)
+    .sort((a,b)=>b.matched_functions-a.matched_functions);
+  new Chart(document.getElementById("unitChart"), {
+    type:"bar",
+    data:{ labels:u.map(x=>x.name), datasets:[
+      {label:"matched", data:u.map(x=>x.matched_functions),
+       backgroundColor:css("--good"), borderRadius:3},
+    ]},
+    options:{ indexAxis:"y", responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:(c)=>{
+          const x=u[c.dataIndex];
+          return ` ${fmt(x.matched_functions)} / ${fmt(x.total_functions)} (${pct(x.matched_functions_percent)})`;
+        }}} },
+      scales:{ x:{beginAtZero:true,grid:{color:css("--grid")}}, y:{grid:{display:false}} } }
+  });
+}
+
+function renderTable(){
+  const rows = HISTORY.slice().reverse().slice(0,15);
+  const body = document.querySelector("#mergeTable tbody");
+  body.innerHTML = rows.map((s,i)=>{
+    const idx = HISTORY.indexOf(s);
+    const prev = idx>0 ? HISTORY[idx-1] : null;
+    const d = prev ? s.project.matched_functions - prev.project.matched_functions : s.project.matched_functions;
+    return `<tr>
+      <td>${shortDate(s.timestamp)}</td>
+      <td class="mono">${s.short||""}</td>
+      <td class="subj" title="${(s.subject||"").replace(/"/g,'&quot;')}">${s.subject||""}</td>
+      <td class="n">${fmt(s.project.matched_functions)}</td>
+      <td class="n ${d>0?'delta-pos':''}">${d>0?"+"+fmt(d):(d||"")}</td>
+    </tr>`;
+  }).join("");
+}
+
+function hexA(hex, a){
+  hex = hex.replace("#",""); if(hex.length===3) hex = hex.split("").map(c=>c+c).join("");
+  const n = parseInt(hex,16);
+  return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+}
+</script>
+</body>
+</html>

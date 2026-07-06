@@ -56,7 +56,9 @@
         "Common.dll": {
             "base": "decomp",
             "flags": [
-                "/D_DLL"
+                "/D_DLL",
+                "/GX",
+                "/G6"
             ]
         },
         "Content.dll": {
