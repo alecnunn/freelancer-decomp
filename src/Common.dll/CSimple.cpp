@@ -8,7 +8,8 @@
 // CObject (the base, incl. m_arch@0x88) is defined in CObject.cpp, included
 // earlier in the unity build. CSimple adds its own fields from +0xa0.
 struct CSimple : CObject {
-    unsigned char    m_flags;          // +0xa0  bit0 = targetable (byte-accessed)
+    unsigned char    m_targetable : 1; // +0xa0  bit 0
+    unsigned char    m_flags_rest : 7;
     unsigned char    _pad_0xa1[3];     // +0xa1
     void*            m_scanner_src;    // +0xa4  object queried for scanner interference
     float            m_scanner_scale;  // +0xa8
@@ -42,13 +43,14 @@ const unsigned int& CSimple::get_id() const { return m_id; }
 unsigned int CSimple::get_type() const { return m_type; }
 unsigned int CSimple::GetOwnerPlayer() const { return m_owner_player; }
 void CSimple::SetOwnerPlayer(unsigned int player) { m_owner_player = player; }
-bool CSimple::is_targetable() const { return m_flags & 1; }
+bool CSimple::is_targetable() const { return m_targetable; }
 IObjDB* CSimple::get_object_database() const { return m_object_db; }
 float CSimple::get_hit_pts() const { return m_hit_pts; }
 void CSimple::set_hit_pts(float hp) { m_hit_pts = hp; }
 float CSimple::get_max_hit_pts() const { return m_arch->hit_pts; }
 float CSimple::get_relative_health() const {
-    return m_hit_pts / m_arch->hit_pts;
+    float hp = m_hit_pts;
+    return hp / m_arch->hit_pts;
 }
 void CSimple::connect(IObjDB* db) { m_object_db = db; }
 void CSimple::disconnect(IObjDB* db) { if (m_object_db == db) m_object_db = 0; }
