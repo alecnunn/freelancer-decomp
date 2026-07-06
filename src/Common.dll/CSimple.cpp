@@ -18,6 +18,7 @@ struct CSimple : CObject {
     float            m_hit_pts;        // +0xb8
     unsigned char    _pad_0xbc[0x24];  // +0xbc
     unsigned int     m_type;           // +0xe0
+    unsigned char    _pad_0xe4[0x20];  // +0xe4 .. +0x104  (pad to true class size 0x104)
 
     const unsigned int& get_id() const;
     unsigned int get_type() const;

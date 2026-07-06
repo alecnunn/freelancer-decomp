@@ -1,13 +1,12 @@
 // CEqObj -- equipment-carrying simulatable object; base of CShip/CSolar.
-// Derives CObject <- CSimple <- CEqObj (own fields from ~0x104). Modeled flat
-// here (offset-based bodies); only offsets touched by matched methods are named.
+// Derives CObject <- CSimple <- CEqObj; own fields from +0x104 (CSimple's size).
+// CSimple is defined in CSimple.cpp, included earlier in the unity build.
+// Only offsets touched by matched methods are named.
 #include "common.h"
 
 class IBehaviorManager;
 
-struct CEqObj {
-    // vftable ptr + EngineObject/CObject/CSimple base subobjects fill 0x00..0x104.
-    unsigned char _pad_0x00[0x104];  // +0x00 .. +0x104
+struct CEqObj : CSimple {
     int           m_vibe;            // +0x104
     unsigned char _pad_0x108[0x38];  // +0x108 .. +0x140
     float         m_cloak;           // +0x140  (>= 1.0 == cloaked)

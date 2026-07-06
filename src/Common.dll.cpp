@@ -1,6 +1,14 @@
 // Common.dll
 //
 // Unity build entrypoint. Include this module's source files here.
+// Game-object hierarchy (CObject..CLoot) is listed first, base-before-derived,
+// so the derived classes can use real inheritance.
+#include "Common.dll/CObject.cpp"
+#include "Common.dll/CSimple.cpp"
+#include "Common.dll/CEqObj.cpp"
+#include "Common.dll/CShip.cpp"
+#include "Common.dll/CSolar.cpp"
+#include "Common.dll/CLoot.cpp"
 #include "Common.dll/Archetype_CollisionGroup.cpp"
 #include "Common.dll/Archetype_Commodity.cpp"
 #include "Common.dll/Archetype_MineDropper.cpp"
@@ -12,14 +20,8 @@
 #include "Common.dll/CBase.cpp"
 #include "Common.dll/CEEngine.cpp"
 #include "Common.dll/CEShield.cpp"
-#include "Common.dll/CEqObj.cpp"
 #include "Common.dll/CEquip.cpp"
 #include "Common.dll/CHARACTER_ID.cpp"
-#include "Common.dll/CLoot.cpp"
-#include "Common.dll/CObject.cpp"
-#include "Common.dll/CShip.cpp"
-#include "Common.dll/CSimple.cpp"
-#include "Common.dll/CSolar.cpp"
 #include "Common.dll/CollisionGroupDesc.cpp"
 #include "Common.dll/CostumeDescriptions.cpp"
 #include "Common.dll/Csys.cpp"
