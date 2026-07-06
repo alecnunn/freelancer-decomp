@@ -49,4 +49,5 @@
 #include "Common.dll/bodypart.cpp"
 #include "Common.dll/pub_AI_Personality.cpp"
 #include "Common.dll/stl_containers.cpp"
+#include "Common.dll/stl_vector_ushort.cpp"
 #include "Common.dll/weighted_vector.cpp"
