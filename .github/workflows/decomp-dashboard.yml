@@ -1,0 +1,97 @@
+# Decompilation progress dashboard.
+#
+# On every merge to main this rebuilds the units, measures match progress with
+# objdiff, appends one timestamped record to the running history, and republishes
+# the static dashboard to an orphan `gh-pages` branch (served via GitHub Pages).
+#
+# The history (data/history.json) is append-only and lives entirely on gh-pages,
+# so main's tree never carries generated data. See docs/DASHBOARD.md for the
+# one-time setup (enabling Pages and wiring up the `fl` toolchain driver).
+name: Decomp Progress Dashboard
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Needed to force-push the generated site to gh-pages.
+permissions:
+  contents: write
+
+# Never let two dashboard runs race on the gh-pages branch.
+concurrency:
+  group: decomp-dashboard
+  cancel-in-progress: false
+
+jobs:
+  measure-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # committer dates / subjects for the snapshot
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Wine (MSVC 6.0 runs under Wine on Linux)
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends wine wine32
+
+      # `fl` is this project's toolchain driver (bootstrap/build/progress). Its
+      # source lives in your own tree/registry, so wire the install up here.
+      # Example (cargo):  cargo install --locked --git <your-fl-repo> fl
+      - name: Install the fl toolchain driver
+        run: |
+          if ! command -v fl >/dev/null 2>&1; then
+            echo "::error title=fl missing::Install the 'fl' toolchain driver in this step (see docs/DASHBOARD.md)."
+            exit 1
+          fi
+          fl --version || true
+
+      - name: Bootstrap toolchain, originals, and delink targets
+        run: fl bootstrap
+
+      - name: Build every unit that has source
+        run: |
+          UNITS=$(python - <<'PY'
+          import json
+          u = json.load(open("objdiff.json"))["units"]
+          print(" ".join(x["name"].split("/")[-1] for x in u))
+          PY
+          )
+          # Empty stub units compile instantly; the units with source do the work.
+          fl build $UNITS || true
+
+      - name: Generate objdiff progress report
+        run: objdiff-cli report generate -o report.json
+
+      - name: Snapshot this merge
+        run: python scripts/decomp_dashboard.py snapshot --report report.json --out snapshot.json
+
+      - name: Publish dashboard to gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p pages/data
+          # Pull the existing append-only history from gh-pages, if the branch exists.
+          if git fetch --depth=1 origin gh-pages 2>/dev/null; then
+            git show FETCH_HEAD:data/history.json > pages/data/history.json 2>/dev/null || true
+          fi
+          # Append this merge's record and (re)materialise the static site.
+          python scripts/decomp_dashboard.py publish --snapshot snapshot.json --pages pages
+          # Force-push a fresh single-commit orphan branch carrying the full history.
+          cd pages
+          git init -q
+          git checkout -q --orphan gh-pages
+          git add -A
+          git -c user.name="decomp-dashboard[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "progress: ${GITHUB_SHA::7} @ $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
