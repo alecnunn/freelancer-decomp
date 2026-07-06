@@ -25,6 +25,7 @@
 #include "Common.dll/CELauncher.cpp"
 #include "Common.dll/CEShield.cpp"
 #include "Common.dll/CEquip.cpp"
+#include "Common.dll/CEquipManager.cpp"
 #include "Common.dll/CHARACTER_ID.cpp"
 #include "Common.dll/CollisionGroupDesc.cpp"
 #include "Common.dll/CostumeDescriptions.cpp"
