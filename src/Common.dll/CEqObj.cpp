@@ -7,6 +7,7 @@
 class IBehaviorManager;
 
 struct CEqObj : CSimple {
+    unsigned char _pad_0xe4[0x20];   // +0xe4 .. +0x104  (CSimple ends at 0xe4)
     int           m_vibe;            // +0x104
     unsigned char _pad_0x108[0x38];  // +0x108 .. +0x140
     float         m_cloak;           // +0x140  (>= 1.0 == cloaked)

@@ -18,7 +18,8 @@ struct Root {
     unsigned int  good_id;         // +0x08  good/nickname hash
     unsigned char _pad_0x0c[4];    // +0x0c
     unsigned int  class_type;      // +0x10  runtime class tag (data)
-    unsigned char _pad_0x14[8];    // +0x14
+    unsigned int  id_name;         // +0x14  display-name string id
+    unsigned char _pad_0x18[4];    // +0x18
     float         hit_pts;         // +0x1c  max hit points
     float         mass;            // +0x20
     unsigned char _pad_0x24[0x38]; // +0x24 .. +0x5c
