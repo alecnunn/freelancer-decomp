@@ -110,4 +110,5 @@ Going forward the workflow appends one record per merge automatically.
 | --- | --- |
 | `.github/workflows/decomp-dashboard.yml` | CI: measure on merge, publish to gh-pages |
 | `scripts/decomp_dashboard.py` | `snapshot` (report → record) + `publish` (append + site) |
+| `scripts/apply_unit_cflags.py` | re-applies per-unit flags (`/GX`, `/G6`) that `fl bootstrap` strips from `build.ninja` |
 | `scripts/dashboard/index.html` | the static dashboard (Chart.js, fetches the history) |

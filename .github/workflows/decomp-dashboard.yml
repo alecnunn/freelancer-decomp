@@ -64,6 +64,11 @@ jobs:
       - name: Bootstrap toolchain, originals, and delink targets
         run: fl bootstrap
 
+      # fl generates build.ninja but drops per-unit flags like /GX and /G6;
+      # re-apply them from config.json so the build matches the real toolchain.
+      - name: Re-apply per-unit compiler flags
+        run: python scripts/apply_unit_cflags.py
+
       - name: Build every unit that has source
         run: |
           UNITS=$(python - <<'PY'
