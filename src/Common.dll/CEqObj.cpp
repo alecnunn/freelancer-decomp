@@ -4,6 +4,7 @@
 // Only offsets touched by matched methods are named.
 #include "common.h"
 
+extern "C" char _delink_ida_const_start[];   // delinked read-only const blob
 class IBehaviorManager;
 
 struct CEqObj : CSimple {
@@ -55,7 +56,7 @@ const unsigned int& CEqObj::get_dock_target() const { return m_dock_target; }
 float CEqObj::get_power() const { return m_power; }
 float CEqObj::get_max_power() const { return m_max_power; }
 float CEqObj::get_power_ratio() const {
-    if (m_max_power <= 0.0f)
-        return 0.0f;
+    if (m_max_power <= *(const float*)(_delink_ida_const_start + 0x54))
+        return *(const float*)(_delink_ida_const_start + 0x54);
     return m_power / m_max_power;
 }
