@@ -39,4 +39,10 @@ struct Vector {
     float dot(const Vector* a) const;          // sub_6F71F90: a.z*b.z + a.y*b.y + a.x*b.x
 };
 
+// Row-major 3x3 rotation matrix (m[0..2]=row0, [3..5]=row1, [6..8]=row2); the
+// affine-transform variants read 3 extra floats at [9..11] as a translation.
+struct Matrix {
+    float m[9];
+};
+
 #endif // X86MATH_H

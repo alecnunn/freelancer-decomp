@@ -197,7 +197,7 @@
     {
       "start": 116856880,
       "end": 116856967,
-      "name": "sub_6F71830",
+      "name": "_x86m_rotate@16",
       "thunk": false,
       "lib": false,
       "static": false,
