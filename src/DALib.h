@@ -51,18 +51,52 @@ public:
 
 namespace Gun2 { struct GUNQueueMessage; }
 
-// --- DirectPlay / Gun interfaces (opaque; only their pointer types matter) ---
-struct IDirectPlay8Client;
+// --- DirectPlay / Gun interfaces (COM __stdcall; named slots are dispatched) ---
 struct IGunHost;
 struct IGunBrowser;
+
+// DirectPlay8 client interface.
+struct IDirectPlay8Client {
+    virtual long __stdcall _s0() = 0;
+    virtual long __stdcall _s1() = 0;
+    virtual long __stdcall _s2() = 0;
+    virtual long __stdcall _s3() = 0;
+    virtual long __stdcall _s4() = 0;
+    virtual long __stdcall _s5() = 0;
+    virtual long __stdcall CancelAsyncOperation(unsigned long handle, unsigned long flags) = 0;  // slot 6 (0x18)
+};
+
+// DACOM file-system interface (IUnknown-derived); Release at slot 2.
+struct IFileSystem {
+    virtual long __stdcall _s0() = 0;
+    virtual long __stdcall _s1() = 0;
+    virtual long __stdcall Release() = 0;   // slot 2 (0x8)
+};
+
+// A "Gun" (GameSpy) connection; DispatchQueue is dispatched at slot 8.
 struct IGunConnection {
     enum ConnectStatus { CS_NONE };
+    virtual long __stdcall _s0() = 0;
+    virtual long __stdcall _s1() = 0;
+    virtual long __stdcall _s2() = 0;
+    virtual long __stdcall _s3() = 0;
+    virtual long __stdcall _s4() = 0;
+    virtual long __stdcall _s5() = 0;
+    virtual long __stdcall _s6() = 0;
+    virtual long __stdcall _s7() = 0;
+    virtual long __stdcall Dispatch(void* wrapper) = 0;   // slot 8 (0x20)
 };
+
+namespace DALib {
+    extern IFileSystem* Data;   // ?Data@DALib@@3PAUIFileSystem@@A
+    void CloseData();
+}
 
 // CGunWrapper -- wraps a "Gun" (GameSpy) host + browser connection.
 class CGunWrapper {
 public:
-    unsigned char                 _pad_0[0x10];   // +0x00
+    unsigned char                 _pad_0[0x08];   // +0x00 (vptr@0 + 8)
+    IGunConnection*               m_conn;         // +0x0c
     IGunHost*                     m_host;         // +0x10
     IGunBrowser*                  m_browser;      // +0x14
     IGunConnection::ConnectStatus m_status;       // +0x18
@@ -70,6 +104,7 @@ public:
     IGunHost* GetHost();
     IGunBrowser* GetBrowser();
     IGunConnection::ConnectStatus GetStatus();
+    void DispatchQueue();
     virtual long __stdcall Read(Gun2::GUNQueueMessage*);
 };
 
@@ -206,6 +241,7 @@ public:
     static unsigned long GetLinkQuality();
     static void SetSourcePort(unsigned long port);
     static bool IsPingOutstanding();
+    void CancelEnums();
 
 private:
     static unsigned long m_dwLastMsgReceivedTime;

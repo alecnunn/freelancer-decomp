@@ -10,3 +10,4 @@
 #include "DALib.dll/CDPClientProxy.cpp"
 #include "DALib.dll/CDPServer.cpp"
 #include "DALib.dll/IDPMsgHandler.cpp"
+#include "DALib.dll/DALib_api.cpp"

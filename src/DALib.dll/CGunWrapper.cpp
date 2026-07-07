@@ -17,3 +17,8 @@ IGunConnection::ConnectStatus CGunWrapper::GetStatus() {
 long __stdcall CGunWrapper::Read(Gun2::GUNQueueMessage*) {
     return 0;
 }
+
+void CGunWrapper::DispatchQueue() {
+    if (m_conn)
+        m_conn->Dispatch(this);
+}

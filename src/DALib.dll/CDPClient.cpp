@@ -35,3 +35,8 @@ void CDPClient::SetSourcePort(unsigned long port) {
 bool CDPClient::IsPingOutstanding() {
     return m_dwPingReceiveCount < m_dwPingSendCount;
 }
+
+void CDPClient::CancelEnums() {
+    if (m_client)
+        m_client->CancelAsyncOperation(0, 2);
+}
