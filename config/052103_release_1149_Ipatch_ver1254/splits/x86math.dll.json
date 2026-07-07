@@ -25,12 +25,12 @@
       "size": 189,
       "scope": "static"
     },
-    "x86MathEngine::QueryInterface": {
+    "_x86m_QueryInterface@12": {
       "address": 116855120,
       "size": 16,
       "scope": "static"
     },
-    "x86MathEngine::AddRef_Release": {
+    "_x86m_AddRef_Release@4": {
       "address": 116855136,
       "size": 8,
       "scope": "static"

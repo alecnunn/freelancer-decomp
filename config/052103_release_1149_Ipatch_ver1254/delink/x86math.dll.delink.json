@@ -107,7 +107,7 @@
     {
       "start": 116855120,
       "end": 116855136,
-      "name": "x86MathEngine::QueryInterface",
+      "name": "_x86m_QueryInterface@12",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -117,7 +117,7 @@
     {
       "start": 116855136,
       "end": 116855144,
-      "name": "x86MathEngine::AddRef_Release",
+      "name": "_x86m_AddRef_Release@4",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -735,14 +735,14 @@
     },
     {
       "addr": 116855120,
-      "name": "x86MathEngine::QueryInterface",
+      "name": "_x86m_QueryInterface@12",
       "public": false,
       "weak": false,
       "is_func": true
     },
     {
       "addr": 116855136,
-      "name": "x86MathEngine::AddRef_Release",
+      "name": "_x86m_AddRef_Release@4",
       "public": false,
       "weak": false,
       "is_func": true
