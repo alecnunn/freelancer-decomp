@@ -16,6 +16,10 @@ long CDPClient::GetConnectResult() {
     return m_connectResult;
 }
 
+void CDPClient::SetGUID(_GUID& guid) {
+    m_guid = guid;
+}
+
 unsigned long CDPClient::GetLastMsgTimestamp() {
     return m_dwLastMsgReceivedTime;
 }

@@ -128,11 +128,14 @@ class CDPClient {
 public:
     unsigned char        _pad_0[0x04];         // +0x00 (vptr)
     IDirectPlay8Client*  m_client;             // +0x04
-    unsigned char        _pad_08[0x7c - 0x08]; // +0x08 .. +0x7c
+    unsigned char        _pad_08[0x68 - 0x08]; // +0x08 .. +0x68
+    _GUID                m_guid;               // +0x68
+    unsigned char        _pad_78[0x7c - 0x78]; // +0x78 .. +0x7c
     long                 m_connectResult;      // +0x7c
 
     IDirectPlay8Client* GetClient();
     long GetConnectResult();
+    void SetGUID(_GUID& guid);
     static unsigned long GetLastMsgTimestamp();
     static unsigned long GetLinkQuality();
     static void SetSourcePort(unsigned long port);
