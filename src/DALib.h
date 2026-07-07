@@ -71,14 +71,24 @@ public:
 // CDPClient -- DirectPlay8 client wrapper (m_client @0x04).
 class CDPClient {
 public:
-    unsigned char        _pad_0[0x04];  // +0x00 (vptr)
-    IDirectPlay8Client*  m_client;      // +0x04
+    unsigned char        _pad_0[0x04];         // +0x00 (vptr)
+    IDirectPlay8Client*  m_client;             // +0x04
+    unsigned char        _pad_08[0x7c - 0x08]; // +0x08 .. +0x7c
+    long                 m_connectResult;      // +0x7c
 
     IDirectPlay8Client* GetClient();
+    long GetConnectResult();
     static unsigned long GetLastMsgTimestamp();
+    static unsigned long GetLinkQuality();
+    static void SetSourcePort(unsigned long port);
+    static bool IsPingOutstanding();
 
 private:
     static unsigned long m_dwLastMsgReceivedTime;
+    static unsigned long m_dwLinkQuality;
+    static unsigned long m_dwSourcePort;
+    static unsigned long m_dwPingReceiveCount;
+    static unsigned long m_dwPingSendCount;
 };
 
 #endif // DALIB_H
