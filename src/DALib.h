@@ -58,6 +58,45 @@ public:
     IGunConnection::ConnectStatus GetStatus();
 };
 
+// CDPMessage -- a received/queued DirectPlay message (data + size).
+class CDPMessage {
+public:
+    unsigned int   m_field_4;   // +0x04
+    unsigned char* m_data;      // +0x08
+    unsigned long  m_size;      // +0x0c
+    unsigned int   m_field_10;  // +0x10
+    unsigned int   m_field_14;  // +0x14
+    unsigned int   m_field_18;  // +0x18
+
+    CDPMessage();
+    virtual ~CDPMessage();
+
+    unsigned char* const GetData();
+    const unsigned long GetSize();
+};
+
+class CDPClientProxy;
+
+// CDPServer -- forward-declared for CDPClientProxy's queue-size delegators.
+class CDPServer {
+public:
+    unsigned int GetSendQSize(CDPClientProxy*);
+    unsigned int GetSendQBytes(CDPClientProxy*);
+};
+
+// CDPClientProxy -- server-side view of a connected client.
+class CDPClientProxy {
+public:
+    unsigned char _pad_0[0x04];         // +0x00 (vptr)
+    CDPServer*    m_server;             // +0x04
+    unsigned char _pad_08[0x3c - 0x08]; // +0x08 .. +0x3c
+    unsigned int  m_localQBytes;        // +0x3c
+    unsigned int  m_localQSize;         // +0x40
+
+    unsigned int GetSendQSize();
+    unsigned int GetSendQBytes();
+};
+
 // CDPMsgList -- thread-safe received-message queue (critical section @0x10).
 class CDPMsgList {
 public:

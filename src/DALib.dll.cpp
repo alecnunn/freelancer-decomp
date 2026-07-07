@@ -6,3 +6,5 @@
 #include "DALib.dll/CGunWrapper.cpp"
 #include "DALib.dll/CDPMsgList.cpp"
 #include "DALib.dll/CDPClient.cpp"
+#include "DALib.dll/CDPMessage.cpp"
+#include "DALib.dll/CDPClientProxy.cpp"
