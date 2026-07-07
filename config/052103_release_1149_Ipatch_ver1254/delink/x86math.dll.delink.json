@@ -157,7 +157,7 @@
     {
       "start": 116856240,
       "end": 116856341,
-      "name": "sub_6F715B0",
+      "name": "_x86m_scale@16",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -167,7 +167,7 @@
     {
       "start": 116856352,
       "end": 116856421,
-      "name": "sub_6F71620",
+      "name": "_x86m_det@8",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -207,7 +207,7 @@
     {
       "start": 116856976,
       "end": 116857072,
-      "name": "sub_6F71890",
+      "name": "_x86m_transform@16",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -217,7 +217,7 @@
     {
       "start": 116857072,
       "end": 116857159,
-      "name": "sub_6F718F0",
+      "name": "_x86m_rotate_transpose@16",
       "thunk": false,
       "lib": false,
       "static": false,

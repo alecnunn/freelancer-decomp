@@ -50,12 +50,12 @@
       "size": 550,
       "scope": "static"
     },
-    "sub_6F715B0": {
+    "_x86m_scale@16": {
       "address": 116856240,
       "size": 101,
       "scope": "static"
     },
-    "sub_6F71620": {
+    "_x86m_det@8": {
       "address": 116856352,
       "size": 69,
       "scope": "static"
@@ -75,12 +75,12 @@
       "size": 87,
       "scope": "static"
     },
-    "sub_6F71890": {
+    "_x86m_transform@16": {
       "address": 116856976,
       "size": 96,
       "scope": "static"
     },
-    "sub_6F718F0": {
+    "_x86m_rotate_transpose@16": {
       "address": 116857072,
       "size": 87,
       "scope": "static"

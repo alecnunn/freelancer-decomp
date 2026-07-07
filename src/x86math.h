@@ -45,4 +45,10 @@ struct Matrix {
     float m[9];
 };
 
+// Affine transform: 3x3 rotation (m@0..0x20) + translation (t@0x24..0x2c).
+struct Transform {
+    float m[9];
+    float t[3];
+};
+
 #endif // X86MATH_H
