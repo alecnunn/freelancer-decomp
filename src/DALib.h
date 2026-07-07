@@ -211,17 +211,29 @@ public:
     bool Disconnect();
 };
 
-// CDPMsgList -- thread-safe received-message queue (critical section @0x10).
+// A node in CDPMsgList's std::list<CDPMessage*> (next, prev, value).
+struct MsgNode {
+    MsgNode*    next;   // +0x00
+    MsgNode*    prev;   // +0x04
+    CDPMessage* value;  // +0x08
+};
+
+// CDPMsgList -- thread-safe received-message queue: a std::list<CDPMessage*>
+// (sentinel node @0x8, size @0xc) guarded by a critical section @0x10.
 class CDPMsgList {
 public:
-    unsigned char    _pad_0[0x10];   // +0x00
-    CRITICAL_SECTION m_cs;           // +0x10
-    void*            m_hEmptyEvent;  // +0x28
+    void*            vtable;          // +0x00
+    void*            m_proxy;         // +0x04 (std::list allocator proxy)
+    MsgNode*         m_head;          // +0x08 (list sentinel node)
+    unsigned int     m_count;         // +0x0c
+    CRITICAL_SECTION m_cs;            // +0x10
+    void*            m_hEmptyEvent;   // +0x28
 
     void Lock();
     void Unlock();
     void SetEmptyEvent();
     void WaitForMsg(unsigned long timeout);
+    CDPMessage* PeekNextMsg();
 };
 
 // CDPClient -- DirectPlay8 client wrapper (m_client @0x04).
