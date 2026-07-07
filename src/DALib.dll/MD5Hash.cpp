@@ -36,3 +36,7 @@ const char* MD5Hash::AsString() {
     sprintf(m_string, "%08x%08x%08x%08x", m_state[0], m_state[1], m_state[2], m_state[3]);
     return m_string;
 }
+
+void MD5Hash::FromString(const char* str) {
+    sscanf(str, "%08x%08x%08x%08x", &m_state[0], &m_state[1], &m_state[2], &m_state[3]);
+}

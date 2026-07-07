@@ -8,7 +8,7 @@ public:
     unsigned int  m_state[4];    // +0x04
     unsigned int  m_count[2];    // +0x14
     unsigned char m_buffer[64];  // +0x1c
-    char          m_string[36];  // +0x5c  (hex-digest text from AsString)
+    char          m_string[128]; // +0x5c  (hex-digest text from AsString; object ends 0xdc)
 
     MD5Hash();
     virtual ~MD5Hash();
@@ -16,6 +16,7 @@ public:
     unsigned char* GetStatePtr();
     bool Compare(MD5Hash& other);
     const char* AsString();
+    void FromString(const char* str);
 
 protected:
     void Transform(unsigned char* block);
