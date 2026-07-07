@@ -236,7 +236,9 @@
         "Common.dll": {
             "base": "decomp",
             "flags": [
-                "/D_DLL"
+                "/D_DLL",
+                "/GX",
+                "/G6"
             ]
         },
         "Content.dll": {
@@ -383,6 +385,7 @@
         "x86math.dll": {
             "base": "decomp",
             "flags": [
+                "/G6",
                 "/D_DLL"
             ]
         },
