@@ -4,6 +4,7 @@
 // Game-object hierarchy (CObject..CLoot) is listed first, base-before-derived,
 // so the derived classes can use real inheritance.
 #include "Common.dll/CObject.cpp"
+#include "Common.dll/CProjectile.cpp"
 #include "Common.dll/CNudgeEngine.cpp"
 #include "Common.dll/CSimple.cpp"
 #include "Common.dll/CEqObj.cpp"
@@ -48,6 +49,7 @@
 #include "Common.dll/RoomData.cpp"
 #include "Common.dll/StateMachine.cpp"
 #include "Common.dll/StateMachineMessage.cpp"
+#include "Common.dll/TargetManager.cpp"
 #include "Common.dll/TextFile32.cpp"
 #include "Common.dll/accessory.cpp"
 #include "Common.dll/bodypart.cpp"
