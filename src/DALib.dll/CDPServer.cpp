@@ -1,5 +1,6 @@
 // DALib.dll -- CDPServer: DirectPlay8 host-session wrapper.
 #include "DALib.h"
+#include <string.h>   // memcpy
 
 extern "C" __declspec(dllimport) unsigned short* __cdecl wcscpy(unsigned short* dst, const unsigned short* src);
 
@@ -45,6 +46,19 @@ void CDPServer::SetMaxPlayers(int max) {
     m_appDesc.dwMaxPlayers = max + 1;
     if (m_host)
         m_host->SetApplicationDesc(&m_appDesc, 0);
+}
+
+// SetEnumResponse: stash the host's enum-reply payload (rejects > 1KB).
+bool CDPServer::SetEnumResponse(void* data, unsigned long len) {
+    if (len > 0x400)
+        return false;
+    if (data != 0) {
+        memcpy(m_enumResponse, data, len);
+        m_enumResponseSize = len;
+    } else {
+        m_enumResponseSize = 0;
+    }
+    return true;
 }
 
 void CDPServer::DisconnectClient(unsigned long id) {

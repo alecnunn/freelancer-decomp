@@ -201,6 +201,9 @@ public:
     DPN_APPLICATION_DESC m_appDesc;      // +0x08 (guidApplication@0x20, dwMaxPlayers@0x30)
     unsigned short       m_sessionNameBuf[0x104]; // +0x50  wchar[260]
     unsigned short       m_passwordBuf[0x104];    // +0x258 wchar[260]
+    unsigned char        _pad_460[0x598 - 0x460];
+    unsigned char        m_enumResponse[0x400];   // +0x598 enum-response payload
+    unsigned long        m_enumResponseSize;      // +0x998
 
     unsigned int GetSendQSize(CDPClientProxy*);
     unsigned int GetSendQBytes(CDPClientProxy*);
@@ -208,6 +211,7 @@ public:
     void SetMaxPlayers(int max);
     void SetSessionName(const unsigned short* name);
     void SetPassword(const unsigned short* password);
+    bool SetEnumResponse(void* data, unsigned long len);
     void DisconnectClient(unsigned long id);
     void StopHosting();
     static void CrashCleanup();
