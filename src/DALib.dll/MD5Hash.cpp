@@ -40,3 +40,25 @@ const char* MD5Hash::AsString() {
 void MD5Hash::FromString(const char* str) {
     sscanf(str, "%08x%08x%08x%08x", &m_state[0], &m_state[1], &m_state[2], &m_state[3]);
 }
+
+// Encode: pack an array of UINT4 into bytes, little-endian. (RSA reference.)
+// 75.5%: correct; the original optimizes the little-endian shifts into a byte
+// copy (mov dl,[ecx-2]...), which MSVC6 doesn't reproduce from either the shift
+// or byte-index form here.
+void MD5Hash::Encode(unsigned char* output, unsigned long* input, unsigned long len) {
+    unsigned int i, j;
+    for (i = 0, j = 0; j < len; i++, j += 4) {
+        output[j]     = (unsigned char)(input[i] & 0xff);
+        output[j + 1] = (unsigned char)((input[i] >> 8) & 0xff);
+        output[j + 2] = (unsigned char)((input[i] >> 16) & 0xff);
+        output[j + 3] = (unsigned char)((input[i] >> 24) & 0xff);
+    }
+}
+
+// Decode: unpack bytes into UINT4, little-endian. (RSA reference.)
+void MD5Hash::Decode(unsigned long* output, unsigned char* input, unsigned long len) {
+    unsigned int i, j;
+    for (i = 0, j = 0; j < len; i++, j += 4)
+        output[i] = ((unsigned int)input[j]) | (((unsigned int)input[j + 1]) << 8) |
+                    (((unsigned int)input[j + 2]) << 16) | (((unsigned int)input[j + 3]) << 24);
+}

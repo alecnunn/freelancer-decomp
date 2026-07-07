@@ -20,8 +20,8 @@ public:
 
 protected:
     void Transform(unsigned char* block);
-    void Encode(unsigned char* output, unsigned int* input, unsigned int len);
-    void Decode(unsigned int* output, unsigned char* input, unsigned int len);
+    void Encode(unsigned char* output, unsigned long* input, unsigned long len);
+    void Decode(unsigned long* output, unsigned char* input, unsigned long len);
 };
 
 // --- Win32 critical section (minimal; avoids pulling in <windows.h>) ---
