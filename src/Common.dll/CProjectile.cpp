@@ -8,6 +8,8 @@
 //   +0xec  float         m_owner_safe_time  (grace period vs. own launcher)
 #include "common.h"
 
+extern "C" char _delink_ida_const_start[];   // delinked read-only const blob (+0x54 == 0.0f)
+
 class CProjectile {
 public:
     virtual void set_dead();            // vtable slot; vptr at +0x00
@@ -18,6 +20,7 @@ public:
     float         m_owner_safe_time;    // +0xec
 
     const unsigned int& get_owner() const;
+    bool is_alive() const;
 };
 
 void CProjectile::set_dead() {
@@ -26,4 +29,8 @@ void CProjectile::set_dead() {
 
 const unsigned int& CProjectile::get_owner() const {
     return m_owner;
+}
+
+bool CProjectile::is_alive() const {
+    return m_lifetime >= *(const float*)(_delink_ida_const_start + 0x54);
 }
