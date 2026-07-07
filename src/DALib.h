@@ -176,11 +176,14 @@ public:
     unsigned char        m_appDesc[0x18];// +0x08 (app desc region, guid at +0x20)
     _GUID                m_guid;         // +0x20  guidApplication
     unsigned int         m_maxPlayers;   // +0x30  dwMaxPlayers
+    unsigned char        _pad_34[0x50 - 0x34];
+    unsigned short       m_sessionNameBuf[0x104]; // +0x50  wchar[260]
 
     unsigned int GetSendQSize(CDPClientProxy*);
     unsigned int GetSendQBytes(CDPClientProxy*);
     void SetGUID(_GUID& guid);
     void SetMaxPlayers(int max);
+    void SetSessionName(const unsigned short* name);
     void DisconnectClient(unsigned long id);
     void StopHosting();
     static void CrashCleanup();
