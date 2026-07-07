@@ -7,3 +7,4 @@
 #include "x86math.dll/com.cpp"
 #include "x86math.dll/crt.cpp"
 #include "x86math.dll/factory.cpp"
+#include "x86math.dll/rsqrt.cpp"

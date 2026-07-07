@@ -5,7 +5,7 @@
       "size": 10,
       "scope": "static"
     },
-    "sub_6F71010": {
+    "_x86m_init_rsqrt_table": {
       "address": 116854800,
       "size": 71,
       "scope": "static"
@@ -280,12 +280,12 @@
       "size": 240,
       "scope": "static"
     },
-    "sub_6F72830": {
+    "_x86m_rsqrt@12": {
       "address": 116860976,
       "size": 125,
       "scope": "static"
     },
-    "sub_6F728B0": {
+    "_x86m_sqrt_via_rsqrt@12": {
       "address": 116861104,
       "size": 129,
       "scope": "static"

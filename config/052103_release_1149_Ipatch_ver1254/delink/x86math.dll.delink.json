@@ -67,7 +67,7 @@
     {
       "start": 116854800,
       "end": 116854871,
-      "name": "sub_6F71010",
+      "name": "_x86m_init_rsqrt_table",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -617,7 +617,7 @@
     {
       "start": 116860976,
       "end": 116861101,
-      "name": "sub_6F72830",
+      "name": "_x86m_rsqrt@12",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -627,7 +627,7 @@
     {
       "start": 116861104,
       "end": 116861233,
-      "name": "sub_6F728B0",
+      "name": "_x86m_sqrt_via_rsqrt@12",
       "thunk": false,
       "lib": false,
       "static": false,
