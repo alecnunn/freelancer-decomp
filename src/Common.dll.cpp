@@ -4,6 +4,7 @@
 // Game-object hierarchy (CObject..CLoot) is listed first, base-before-derived,
 // so the derived classes can use real inheritance.
 #include "Common.dll/CObject.cpp"
+#include "Common.dll/CNudgeEngine.cpp"
 #include "Common.dll/CSimple.cpp"
 #include "Common.dll/CEqObj.cpp"
 #include "Common.dll/CShip.cpp"

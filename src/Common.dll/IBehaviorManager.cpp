@@ -38,10 +38,22 @@ public:
     unsigned char _pad_bd[0xc4 - 0xbd];     // +0xbd .. +0xc4
     int           m_directive_type;         // +0xc4
     int           m_directive_priority;     // +0xc8
+    unsigned char _pad_cc[0xf9 - 0xcc];     // +0xcc .. +0xf9
+    bool          m_level_camera;           // +0xf9
+    unsigned char _pad_fa[0x134 - 0xfa];    // +0xfa .. +0x134
+    Vector        m_ship_up;                // +0x134
+    Vector        m_camera_up;              // +0x140
+    unsigned char _pad_14c[0x150 - 0x14c];  // +0x14c .. +0x150
+    bool          m_user_turning;           // +0x150
 
     bool enable_maneuver(int maneuver_id, bool enable);
     bool lock_maneuvers(bool locked);
     pub::AI::OP_RTYPE set_directive_priority(pub::AI::DirectivePriority priority);
+
+    void set_ship_up_direction(const Vector& up);
+    void submit_camera_up(const Vector& up);
+    void set_user_turning_input_state(bool state);
+    void update_level_camera(bool level);
 };
 
 bool IBehaviorManager::enable_maneuver(int maneuver_id, bool enable) {
@@ -68,4 +80,20 @@ pub::AI::OP_RTYPE IBehaviorManager::set_directive_priority(pub::AI::DirectivePri
         return pub::AI::OP_SUCCESS;
     }
     return pub::AI::OP_INVALID_DIRECTIVE;
+}
+
+void IBehaviorManager::set_ship_up_direction(const Vector& up) {
+    m_ship_up = up;
+}
+
+void IBehaviorManager::submit_camera_up(const Vector& up) {
+    m_camera_up = up;
+}
+
+void IBehaviorManager::set_user_turning_input_state(bool state) {
+    m_user_turning = state;
+}
+
+void IBehaviorManager::update_level_camera(bool level) {
+    m_level_camera = level;
 }
