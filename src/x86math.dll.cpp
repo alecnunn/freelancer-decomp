@@ -5,3 +5,4 @@
 #include "x86math.dll/vector.cpp"
 #include "x86math.dll/matrix.cpp"
 #include "x86math.dll/com.cpp"
+#include "x86math.dll/crt.cpp"
