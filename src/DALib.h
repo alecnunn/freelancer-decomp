@@ -61,11 +61,19 @@ struct IGunBrowser;
 struct IDirectPlay8Client {
     virtual long __stdcall _s0() = 0;
     virtual long __stdcall _s1() = 0;
-    virtual long __stdcall _s2() = 0;
+    virtual long __stdcall Release() = 0;   // slot 2 (0x08)
     virtual long __stdcall _s3() = 0;
     virtual long __stdcall _s4() = 0;
     virtual long __stdcall _s5() = 0;
     virtual long __stdcall CancelAsyncOperation(unsigned long handle, unsigned long flags) = 0;  // slot 6 (0x18)
+    virtual long __stdcall _s7() = 0;
+    virtual long __stdcall _s8() = 0;
+    virtual long __stdcall _s9() = 0;
+    virtual long __stdcall _s10() = 0;
+    virtual long __stdcall _s11() = 0;
+    virtual long __stdcall _s12() = 0;
+    virtual long __stdcall _s13() = 0;
+    virtual long __stdcall Close(unsigned long flags) = 0;   // slot 14 (0x38)
 };
 
 // DACOM file-system interface (IUnknown-derived); Release at slot 2.
@@ -250,6 +258,8 @@ public:
     _GUID                m_guid;               // +0x68
     unsigned char        _pad_78[0x7c - 0x78]; // +0x78 .. +0x7c
     long                 m_connectResult;      // +0x7c
+    unsigned char        _pad_80[0x8c - 0x80]; // +0x80 .. +0x8c
+    bool                 m_coInitialized;      // +0x8c
 
     IDirectPlay8Client* GetClient();
     long GetConnectResult();
@@ -259,6 +269,8 @@ public:
     static void SetSourcePort(unsigned long port);
     static bool IsPingOutstanding();
     void CancelEnums();
+    void Cleanup();
+    void Close();
 
 private:
     static unsigned long m_dwLastMsgReceivedTime;
