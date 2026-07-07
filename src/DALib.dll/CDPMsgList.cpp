@@ -13,3 +13,7 @@ void CDPMsgList::Unlock() {
 void CDPMsgList::SetEmptyEvent() {
     SetEvent(m_hEmptyEvent);
 }
+
+void CDPMsgList::WaitForMsg(unsigned long timeout) {
+    WaitForSingleObject(m_hEmptyEvent, timeout);
+}

@@ -16,3 +16,8 @@ void CDPClientProxy::OnMsgSent(unsigned long) {}
 double CDPClientProxy::GetLinkSaturation() {
     return m_linkSaturation;
 }
+
+bool CDPClientProxy::Disconnect() {
+    m_server->DisconnectClient(m_clientId);
+    return true;
+}

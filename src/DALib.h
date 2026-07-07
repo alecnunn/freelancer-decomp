@@ -37,6 +37,7 @@ typedef struct _RTL_CRITICAL_SECTION CRITICAL_SECTION;
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITICAL_SECTION*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITICAL_SECTION*);
 extern "C" __declspec(dllimport) int  __stdcall SetEvent(void*);
+extern "C" __declspec(dllimport) unsigned long __stdcall WaitForSingleObject(void*, unsigned long);
 
 // IDPMsgHandler -- abstract DirectPlay message-handler callback interface.
 class IDPMsgHandler {
@@ -108,6 +109,7 @@ public:
     unsigned int GetSendQSize(CDPClientProxy*);
     unsigned int GetSendQBytes(CDPClientProxy*);
     void SetGUID(_GUID& guid);
+    void DisconnectClient(unsigned long);
     static unsigned long GetLastMsgTimestamp();
 
 private:
@@ -119,7 +121,8 @@ class CDPClientProxy {
 public:
     unsigned char _pad_0[0x04];         // +0x00 (vptr)
     CDPServer*    m_server;             // +0x04
-    unsigned char _pad_08[0x3c - 0x08]; // +0x08 .. +0x3c
+    unsigned long m_clientId;           // +0x08
+    unsigned char _pad_0c[0x3c - 0x0c]; // +0x0c .. +0x3c
     unsigned int  m_localQBytes;        // +0x3c
     unsigned int  m_localQSize;         // +0x40
     unsigned char _pad_44[0x58 - 0x44]; // +0x44 .. +0x58
@@ -129,6 +132,7 @@ public:
     unsigned int GetSendQBytes();
     void OnMsgSent(unsigned long);
     double GetLinkSaturation();
+    bool Disconnect();
 };
 
 // CDPMsgList -- thread-safe received-message queue (critical section @0x10).
@@ -141,6 +145,7 @@ public:
     void Lock();
     void Unlock();
     void SetEmptyEvent();
+    void WaitForMsg(unsigned long timeout);
 };
 
 // CDPClient -- DirectPlay8 client wrapper (m_client @0x04).
