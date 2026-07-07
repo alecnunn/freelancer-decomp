@@ -10,3 +10,9 @@ unsigned int CDPClientProxy::GetSendQSize() {
 unsigned int CDPClientProxy::GetSendQBytes() {
     return m_server->GetSendQBytes(this) + m_localQBytes;
 }
+
+void CDPClientProxy::OnMsgSent(unsigned long) {}
+
+double CDPClientProxy::GetLinkSaturation() {
+    return m_linkSaturation;
+}

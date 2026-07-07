@@ -9,3 +9,7 @@ void CDPMsgList::Lock() {
 void CDPMsgList::Unlock() {
     LeaveCriticalSection(&m_cs);
 }
+
+void CDPMsgList::SetEmptyEvent() {
+    SetEvent(m_hEmptyEvent);
+}

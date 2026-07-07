@@ -36,6 +36,19 @@ struct _RTL_CRITICAL_SECTION {
 typedef struct _RTL_CRITICAL_SECTION CRITICAL_SECTION;
 extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITICAL_SECTION*);
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITICAL_SECTION*);
+extern "C" __declspec(dllimport) int  __stdcall SetEvent(void*);
+
+// IDPMsgHandler -- abstract DirectPlay message-handler callback interface.
+class IDPMsgHandler {
+public:
+    IDPMsgHandler();
+    IDPMsgHandler(const IDPMsgHandler&);
+    IDPMsgHandler& operator=(const IDPMsgHandler&);
+    virtual void OnReceive(unsigned char*, unsigned long);
+    virtual void OnDisconnect();
+};
+
+namespace Gun2 { struct GUNQueueMessage; }
 
 // --- DirectPlay / Gun interfaces (opaque; only their pointer types matter) ---
 struct IDirectPlay8Client;
@@ -56,6 +69,7 @@ public:
     IGunHost* GetHost();
     IGunBrowser* GetBrowser();
     IGunConnection::ConnectStatus GetStatus();
+    virtual long __stdcall Read(Gun2::GUNQueueMessage*);
 };
 
 // CDPMessage -- a received/queued DirectPlay message (data + size).
@@ -108,9 +122,13 @@ public:
     unsigned char _pad_08[0x3c - 0x08]; // +0x08 .. +0x3c
     unsigned int  m_localQBytes;        // +0x3c
     unsigned int  m_localQSize;         // +0x40
+    unsigned char _pad_44[0x58 - 0x44]; // +0x44 .. +0x58
+    double        m_linkSaturation;     // +0x58
 
     unsigned int GetSendQSize();
     unsigned int GetSendQBytes();
+    void OnMsgSent(unsigned long);
+    double GetLinkSaturation();
 };
 
 // CDPMsgList -- thread-safe received-message queue (critical section @0x10).
@@ -118,9 +136,11 @@ class CDPMsgList {
 public:
     unsigned char    _pad_0[0x10];   // +0x00
     CRITICAL_SECTION m_cs;           // +0x10
+    void*            m_hEmptyEvent;  // +0x28
 
     void Lock();
     void Unlock();
+    void SetEmptyEvent();
 };
 
 // CDPClient -- DirectPlay8 client wrapper (m_client @0x04).

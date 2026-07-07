@@ -13,3 +13,7 @@ IGunBrowser* CGunWrapper::GetBrowser() {
 IGunConnection::ConnectStatus CGunWrapper::GetStatus() {
     return m_status;
 }
+
+long __stdcall CGunWrapper::Read(Gun2::GUNQueueMessage*) {
+    return 0;
+}

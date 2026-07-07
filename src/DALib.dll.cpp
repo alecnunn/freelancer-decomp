@@ -9,3 +9,4 @@
 #include "DALib.dll/CDPMessage.cpp"
 #include "DALib.dll/CDPClientProxy.cpp"
 #include "DALib.dll/CDPServer.cpp"
+#include "DALib.dll/IDPMsgHandler.cpp"
