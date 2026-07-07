@@ -127,7 +127,7 @@
     {
       "start": 116855152,
       "end": 116855273,
-      "name": "x86MathEngine::IComponentFactory::CreateInstance",
+      "name": "_x86m_CreateInstance@12",
       "thunk": false,
       "lib": false,
       "static": false,
@@ -749,7 +749,7 @@
     },
     {
       "addr": 116855152,
-      "name": "x86MathEngine::IComponentFactory::CreateInstance",
+      "name": "_x86m_CreateInstance@12",
       "public": false,
       "weak": false,
       "is_func": true
@@ -889,7 +889,7 @@
     },
     {
       "addr": 116863072,
-      "name": "implementation_name",
+      "name": "_implementation_name",
       "public": false,
       "weak": false,
       "is_func": false
@@ -980,7 +980,7 @@
     },
     {
       "addr": 116867104,
-      "name": "IID_I3DMathEngine",
+      "name": "_IID_I3DMathEngine",
       "public": false,
       "weak": false,
       "is_func": false

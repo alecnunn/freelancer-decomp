@@ -35,7 +35,7 @@
       "size": 8,
       "scope": "static"
     },
-    "x86MathEngine::IComponentFactory::CreateInstance": {
+    "_x86m_CreateInstance@12": {
       "address": 116855152,
       "size": 121,
       "scope": "static"
