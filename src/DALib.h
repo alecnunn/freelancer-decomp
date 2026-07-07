@@ -77,11 +77,27 @@ public:
 
 class CDPClientProxy;
 
-// CDPServer -- forward-declared for CDPClientProxy's queue-size delegators.
+// COM GUID (16 bytes).
+struct _GUID {
+    unsigned long  Data1;
+    unsigned short Data2;
+    unsigned short Data3;
+    unsigned char  Data4[8];
+};
+
+// CDPServer -- DirectPlay8 host-session wrapper.
 class CDPServer {
 public:
+    unsigned char _pad_0[0x20];  // +0x00
+    _GUID         m_guid;        // +0x20
+
     unsigned int GetSendQSize(CDPClientProxy*);
     unsigned int GetSendQBytes(CDPClientProxy*);
+    void SetGUID(_GUID& guid);
+    static unsigned long GetLastMsgTimestamp();
+
+private:
+    static unsigned long m_dwLastMsgReceivedTime;
 };
 
 // CDPClientProxy -- server-side view of a connected client.
