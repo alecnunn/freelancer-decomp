@@ -70,7 +70,8 @@
         "DALib.dll": {
             "base": "decomp",
             "flags": [
-                "/D_DLL"
+                "/D_DLL",
+                "/G6"
             ]
         },
         "Freelancer.exe": {
