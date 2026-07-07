@@ -100,20 +100,61 @@ struct _GUID {
     unsigned char  Data4[8];
 };
 
-// CDPServer -- DirectPlay8 host-session wrapper.
+// IDirectPlay8Server -- DirectPlay8 host interface (COM __stdcall; only the
+// dispatched slots are named, the rest are vtable placeholders).
+struct IDirectPlay8Server {
+    virtual long __stdcall _s0() = 0;
+    virtual long __stdcall _s1() = 0;
+    virtual long __stdcall _s2() = 0;
+    virtual long __stdcall _s3() = 0;
+    virtual long __stdcall _s4() = 0;
+    virtual long __stdcall _s5() = 0;
+    virtual long __stdcall _s6() = 0;
+    virtual long __stdcall _s7() = 0;
+    virtual long __stdcall _s8() = 0;
+    virtual long __stdcall _s9() = 0;
+    virtual long __stdcall _s10() = 0;
+    virtual long __stdcall _s11() = 0;
+    virtual long __stdcall SetApplicationDesc(void* desc, unsigned long flags) = 0;   // slot 12 (0x30)
+    virtual long __stdcall _s13() = 0;
+    virtual long __stdcall _s14() = 0;
+    virtual long __stdcall _s15() = 0;
+    virtual long __stdcall _s16() = 0;
+    virtual long __stdcall _s17() = 0;
+    virtual long __stdcall _s18() = 0;
+    virtual long __stdcall _s19() = 0;
+    virtual long __stdcall _s20() = 0;
+    virtual long __stdcall _s21() = 0;
+    virtual long __stdcall _s22() = 0;
+    virtual long __stdcall Close(unsigned long flags) = 0;   // slot 23 (0x5c)
+    virtual long __stdcall DestroyClient(unsigned long id, void* ctx, unsigned long a, unsigned long b) = 0;   // slot 24 (0x60)
+};
+
+// CDPServer -- DirectPlay8 host-session wrapper. The DPN_APPLICATION_DESC lives
+// inline at +0x08 (its guidApplication is m_guid@0x20, dwMaxPlayers is @0x30).
 class CDPServer {
 public:
-    unsigned char _pad_0[0x20];  // +0x00
-    _GUID         m_guid;        // +0x20
+    unsigned char        _pad_0[0x04];   // +0x00 (vptr)
+    IDirectPlay8Server*  m_host;         // +0x04
+    unsigned char        m_appDesc[0x18];// +0x08 (app desc region, guid at +0x20)
+    _GUID                m_guid;         // +0x20  guidApplication
+    unsigned int         m_maxPlayers;   // +0x30  dwMaxPlayers
 
     unsigned int GetSendQSize(CDPClientProxy*);
     unsigned int GetSendQBytes(CDPClientProxy*);
     void SetGUID(_GUID& guid);
-    void DisconnectClient(unsigned long);
+    void SetMaxPlayers(int max);
+    void DisconnectClient(unsigned long id);
+    void StopHosting();
+    static void CrashCleanup();
     static unsigned long GetLastMsgTimestamp();
+
+protected:
+    void UpdateDescription();
 
 private:
     static unsigned long m_dwLastMsgReceivedTime;
+    static CDPServer*    m_pServer;
 };
 
 // CDPClientProxy -- server-side view of a connected client.
