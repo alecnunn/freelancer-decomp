@@ -12,6 +12,8 @@
 #include <string.h>   // memcmp (intrinsic under /Oi)
 #include <stdio.h>    // sprintf
 
+extern "C" char __delink_ida_data_start[];   // MD5 PADDING at +0x68
+
 MD5Hash::MD5Hash() {
     m_count[1] = 0;
     m_count[0] = 0;
@@ -61,6 +63,44 @@ void MD5Hash::Decode(unsigned long* output, unsigned char* input, unsigned long 
     for (i = 0, j = 0; j < len; i++, j += 4)
         output[i] = ((unsigned int)input[j]) | (((unsigned int)input[j + 1]) << 8) |
                     (((unsigned int)input[j + 2]) << 16) | (((unsigned int)input[j + 3]) << 24);
+}
+
+// AddData (Update): buffer input, updating the 64-bit length, Transform full blocks.
+bool MD5Hash::AddData(void* const input, unsigned long inputLen) {
+    unsigned char* in = (unsigned char*)input;
+    unsigned int i, index, partLen;
+    index = (unsigned int)((m_count[0] >> 3) & 0x3f);
+    if ((m_count[0] += (inputLen << 3)) < (inputLen << 3))
+        m_count[1]++;
+    m_count[1] += (inputLen >> 29);
+    partLen = 64 - index;
+    if (inputLen >= partLen) {
+        memcpy(&m_buffer[index], in, partLen);
+        Transform(m_buffer);
+        for (i = partLen; i + 63 < inputLen; i += 64)
+            Transform(&in[i]);
+        index = 0;
+    } else
+        i = 0;
+    memcpy(&m_buffer[index], &in[i], inputLen - i);
+    return true;
+}
+
+// CalcValue (Final): append the length and MD5 padding; digest is left in m_state.
+bool MD5Hash::CalcValue() {
+    unsigned char bits[8];
+    unsigned int i, j, index, padLen;
+    for (i = 0, j = 0; j < 8; i++, j += 4) {   // Encode(bits, m_count, 8) inlined
+        bits[j]     = (unsigned char)(m_count[i] & 0xff);
+        bits[j + 1] = (unsigned char)((m_count[i] >> 8) & 0xff);
+        bits[j + 2] = (unsigned char)((m_count[i] >> 16) & 0xff);
+        bits[j + 3] = (unsigned char)((m_count[i] >> 24) & 0xff);
+    }
+    index = (unsigned int)((m_count[0] >> 3) & 0x3f);
+    padLen = (index < 56) ? (56 - index) : (120 - index);
+    AddData((void*)(__delink_ida_data_start + 0x68), padLen);
+    AddData(bits, 8);
+    return true;
 }
 
 // MD5 core transform (RSA reference). Processes one 64-byte block into m_state.

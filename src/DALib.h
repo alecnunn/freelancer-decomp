@@ -17,6 +17,8 @@ public:
     bool Compare(MD5Hash& other);
     const char* AsString();
     void FromString(const char* str);
+    bool AddData(void* const input, unsigned long inputLen);
+    bool CalcValue();
 
 protected:
     void Transform(unsigned char* block);
