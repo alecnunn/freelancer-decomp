@@ -7,13 +7,28 @@ unsigned long CDPServer::m_dwLastMsgReceivedTime;
 CDPServer*    CDPServer::m_pServer;
 
 void CDPServer::SetGUID(_GUID& guid) {
-    m_guid = guid;
+    m_appDesc.guidApplication = guid;
 }
 
 void CDPServer::SetSessionName(const unsigned short* name) {
     wcscpy(m_sessionNameBuf, name);
     if (m_host)
-        m_host->SetApplicationDesc(m_appDesc, 0);
+        m_host->SetApplicationDesc(&m_appDesc, 0);
+}
+
+void CDPServer::SetPassword(const unsigned short* password) {
+    unsigned long flags;
+    if (*password == 0) {
+        m_appDesc.pwszPassword = 0;
+        flags = m_appDesc.dwFlags & ~0x80;
+    } else {
+        wcscpy(m_passwordBuf, password);
+        m_appDesc.pwszPassword = m_passwordBuf;
+        flags = m_appDesc.dwFlags | 0x80;
+    }
+    m_appDesc.dwFlags = flags;
+    if (m_host)
+        m_host->SetApplicationDesc(&m_appDesc, 0);
 }
 
 void CDPServer::StopHosting() {
@@ -23,13 +38,13 @@ void CDPServer::StopHosting() {
 
 void CDPServer::UpdateDescription() {
     if (m_host)
-        m_host->SetApplicationDesc(m_appDesc, 0);
+        m_host->SetApplicationDesc(&m_appDesc, 0);
 }
 
 void CDPServer::SetMaxPlayers(int max) {
-    m_maxPlayers = max + 1;
+    m_appDesc.dwMaxPlayers = max + 1;
     if (m_host)
-        m_host->SetApplicationDesc(m_appDesc, 0);
+        m_host->SetApplicationDesc(&m_appDesc, 0);
 }
 
 void CDPServer::DisconnectClient(unsigned long id) {

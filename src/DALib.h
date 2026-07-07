@@ -145,6 +145,23 @@ struct _GUID {
     unsigned char  Data4[8];
 };
 
+// DirectPlay8 application description (embedded in CDPServer@0x8). Bit 0x80 of
+// dwFlags is DPNSESSION_REQUIREPASSWORD.
+struct DPN_APPLICATION_DESC {
+    unsigned long   dwSize;                       // +0x00
+    unsigned long   dwFlags;                      // +0x04
+    _GUID           guidInstance;                 // +0x08
+    _GUID           guidApplication;              // +0x18
+    unsigned long   dwMaxPlayers;                 // +0x28
+    unsigned long   dwCurrentPlayers;             // +0x2c
+    unsigned short* pwszSessionName;              // +0x30
+    unsigned short* pwszPassword;                 // +0x34
+    void*           pvReservedData;               // +0x38
+    unsigned long   dwReservedDataSize;           // +0x3c
+    void*           pvApplicationReservedData;    // +0x40
+    unsigned long   dwApplicationReservedDataSize;// +0x44
+};
+
 // IDirectPlay8Server -- DirectPlay8 host interface (COM __stdcall; only the
 // dispatched slots are named, the rest are vtable placeholders).
 struct IDirectPlay8Server {
@@ -181,17 +198,16 @@ class CDPServer {
 public:
     unsigned char        _pad_0[0x04];   // +0x00 (vptr)
     IDirectPlay8Server*  m_host;         // +0x04
-    unsigned char        m_appDesc[0x18];// +0x08 (app desc region, guid at +0x20)
-    _GUID                m_guid;         // +0x20  guidApplication
-    unsigned int         m_maxPlayers;   // +0x30  dwMaxPlayers
-    unsigned char        _pad_34[0x50 - 0x34];
+    DPN_APPLICATION_DESC m_appDesc;      // +0x08 (guidApplication@0x20, dwMaxPlayers@0x30)
     unsigned short       m_sessionNameBuf[0x104]; // +0x50  wchar[260]
+    unsigned short       m_passwordBuf[0x104];    // +0x258 wchar[260]
 
     unsigned int GetSendQSize(CDPClientProxy*);
     unsigned int GetSendQBytes(CDPClientProxy*);
     void SetGUID(_GUID& guid);
     void SetMaxPlayers(int max);
     void SetSessionName(const unsigned short* name);
+    void SetPassword(const unsigned short* password);
     void DisconnectClient(unsigned long id);
     void StopHosting();
     static void CrashCleanup();
