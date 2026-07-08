@@ -38,6 +38,9 @@ public:
     float get_delivery_time() const;
     void set_delivery_options(float delivery_time, unsigned int source,
                               unsigned int dest, int scope);
+    bool is_delivered() const;
+    void set_sender(unsigned int source);
+    void set_receiver(unsigned int dest);
 
     static unsigned int GenerateUniqueMessageType();
 
@@ -94,4 +97,16 @@ void StateMachineMessage::set_delivery_options(float delivery_time, unsigned int
 
 unsigned int StateMachineMessage::GenerateUniqueMessageType() {
     return ++s_unique_message_type_generator;
+}
+
+bool StateMachineMessage::is_delivered() const {
+    return m_immediate;
+}
+
+void StateMachineMessage::set_sender(unsigned int source) {
+    m_source = source;
+}
+
+void StateMachineMessage::set_receiver(unsigned int dest) {
+    m_dest = dest;
 }
