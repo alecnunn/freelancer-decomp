@@ -83,6 +83,13 @@ struct IFileSystem {
     virtual long __stdcall Release() = 0;   // slot 2 (0x8)
 };
 
+// DirectPlay8 address (IUnknown-derived); Release at slot 2.
+struct IDirectPlay8Address {
+    virtual long __stdcall _s0() = 0;
+    virtual long __stdcall _s1() = 0;
+    virtual long __stdcall Release() = 0;   // slot 2 (0x8)
+};
+
 // A "Gun" (GameSpy) connection; DispatchQueue is dispatched at slot 8.
 struct IGunConnection {
     enum ConnectStatus { CS_NONE };
@@ -127,9 +134,11 @@ public:
     unsigned int   m_field_10;  // +0x10
     unsigned int   m_field_14;  // +0x14
     unsigned int   m_field_18;  // +0x18
+    unsigned int   m_field_1c;  // +0x1c
 
     CDPMessage();
     virtual ~CDPMessage();
+    CDPMessage& operator=(const CDPMessage& o);
 
     unsigned char* const GetData();
     const unsigned long GetSize();
@@ -201,7 +210,9 @@ public:
     DPN_APPLICATION_DESC m_appDesc;      // +0x08 (guidApplication@0x20, dwMaxPlayers@0x30)
     unsigned short       m_sessionNameBuf[0x104]; // +0x50  wchar[260]
     unsigned short       m_passwordBuf[0x104];    // +0x258 wchar[260]
-    unsigned char        _pad_460[0x598 - 0x460];
+    IDirectPlay8Address* m_hostAddresses[0x40];   // +0x460 host address list
+    unsigned int         m_addressCount;          // +0x560
+    unsigned char        _pad_564[0x598 - 0x564];
     unsigned char        m_enumResponse[0x400];   // +0x598 enum-response payload
     unsigned long        m_enumResponseSize;      // +0x998
 
@@ -219,6 +230,7 @@ public:
 
 protected:
     void UpdateDescription();
+    void ReleaseHostAddresses();
 
 private:
     static unsigned long m_dwLastMsgReceivedTime;

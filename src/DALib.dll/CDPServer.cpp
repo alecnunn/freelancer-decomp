@@ -42,6 +42,18 @@ void CDPServer::UpdateDescription() {
         m_host->SetApplicationDesc(&m_appDesc, 0);
 }
 
+// ReleaseHostAddresses: release and clear each cached host address.
+void CDPServer::ReleaseHostAddresses() {
+    unsigned int i = 0;
+    if (m_addressCount > 0) {
+        for (; i < m_addressCount; i++) {
+            m_hostAddresses[i]->Release();
+            m_hostAddresses[i] = 0;
+        }
+    }
+    m_addressCount = 0;
+}
+
 void CDPServer::SetMaxPlayers(int max) {
     m_appDesc.dwMaxPlayers = max + 1;
     if (m_host)

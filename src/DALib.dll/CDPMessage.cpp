@@ -12,6 +12,17 @@ CDPMessage::CDPMessage() {
 
 CDPMessage::~CDPMessage() {}
 
+CDPMessage& CDPMessage::operator=(const CDPMessage& o) {
+    m_field_4 = o.m_field_4;
+    m_data = o.m_data;
+    m_size = o.m_size;
+    m_field_10 = o.m_field_10;
+    m_field_14 = o.m_field_14;
+    m_field_18 = o.m_field_18;
+    m_field_1c = o.m_field_1c;
+    return *this;
+}
+
 unsigned char* const CDPMessage::GetData() {
     return m_data;
 }
