@@ -1,0 +1,298 @@
+{
+  "timestamp": "2026-07-07T17:27:27-07:00",
+  "commit": "8b0fb93991b33bb9e8e19bb134b4616b35a0aa14",
+  "short": "8b0fb93",
+  "subject": "Merge pull request #3 from alecnunn/decomp/common-x86math-dalib",
+  "author": "Alec Nunn",
+  "project": {
+    "matched_functions": 371,
+    "total_functions": 52927,
+    "matched_functions_percent": 0.701,
+    "matched_code": 8313,
+    "total_code": 6977209,
+    "matched_code_percent": 0.1191,
+    "fuzzy_match_percent": 0.4884
+  },
+  "units": [
+    {
+      "matched_functions": 282,
+      "total_functions": 8609,
+      "matched_functions_percent": 3.2756,
+      "matched_code": 6472,
+      "total_code": 1220856,
+      "matched_code_percent": 0.5301,
+      "fuzzy_match_percent": 2.3798,
+      "name": "Common.dll"
+    },
+    {
+      "matched_functions": 53,
+      "total_functions": 220,
+      "matched_functions_percent": 24.0909,
+      "matched_code": 1266,
+      "total_code": 23001,
+      "matched_code_percent": 5.5041,
+      "fuzzy_match_percent": 16.2433,
+      "name": "DALib.dll"
+    },
+    {
+      "matched_functions": 29,
+      "total_functions": 67,
+      "matched_functions_percent": 43.2836,
+      "matched_code": 507,
+      "total_code": 6522,
+      "matched_code_percent": 7.7737,
+      "fuzzy_match_percent": 18.4562,
+      "name": "x86math.dll"
+    },
+    {
+      "matched_functions": 7,
+      "total_functions": 5134,
+      "matched_functions_percent": 0.1363,
+      "matched_code": 68,
+      "total_code": 272893,
+      "matched_code_percent": 0.0249,
+      "fuzzy_match_percent": 0.0305,
+      "name": "alchemy.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 7525,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 1071715,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "Content.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 11690,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 1786533,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "Freelancer.exe"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 2196,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 221299,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "RemoteClient.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 3646,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 512529,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "Server.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 160,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 18926,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "dacom.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 488,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 60303,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "debuglib.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 308,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 62282,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "deformable2.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 520,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 91024,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "engbase.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 431,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 61680,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "flmaterials.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 1971,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 97343,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "flserver.exe"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 221,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 22089,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "imeui.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 377,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 39361,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "luaprofile.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 540,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 99545,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "movie.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 203,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 28294,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "readfile.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 2146,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 220432,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "remoteserver.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 484,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 78488,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "rendcomp.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 1169,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 368399,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "rp8.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 1684,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 189651,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "rpclocal.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 648,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 124419,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "shading.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 180,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 31430,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "soundmanager.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 322,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 43308,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "soundstreamer.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 30,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 2804,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "system.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 1921,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 215425,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "thorn.dll"
+    },
+    {
+      "matched_functions": 0,
+      "total_functions": 37,
+      "matched_functions_percent": 0.0,
+      "matched_code": 0,
+      "total_code": 6658,
+      "matched_code_percent": 0.0,
+      "fuzzy_match_percent": 0.0,
+      "name": "ximage.dll"
+    }
+  ]
+}
